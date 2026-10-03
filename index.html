@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miss Blupsy 🫧</title>
+<meta name="description" content="Miss Blupsy: a little bubble that lives on your screen and gives AI a body. Works with any AI app that supports MCP.">
+<meta property="og:title" content="Miss Blupsy 🫧">
+<meta property="og:description" content="A body for AI: a little bubble on your screen that hears you, opens your apps, points, and edits your files.">
+<meta property="og:image" content="https://missblupsy.com/icon-512.png">
+<meta property="og:url" content="https://missblupsy.com/">
+<link rel="canonical" href="https://missblupsy.com/">
+<meta name="theme-color" content="#f7f3ff">
+<link rel="icon" href="icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f3ff; --bg2:#eef6ff; --ink:#1a1d4a; --soft:#585c8a; --card:#ffffffd9; --line:#1a1d4a14;
+  --pink:#ff6fae; --violet:#8f7bff; --sky:#4cc3ff; --mint:#44d6a6;
+  --brand:linear-gradient(120deg,var(--pink),var(--violet) 45%,var(--sky));
+  --shadow:0 18px 50px -20px #1a1d4a40, 0 0 0 1px var(--line);
+  --head:"Baloo Bhaijaan 2","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12132b; --bg2:#151a36; --ink:#eef0ff; --soft:#a8acd6; --card:#1d2045d9; --line:#ffffff1a;
+    --shadow:0 18px 50px -20px #000a, 0 0 0 1px var(--line); color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);color:var(--ink);line-height:1.7;
+  background:radial-gradient(1200px 700px at 85% -10%,#ff6fae22,transparent 60%),
+             radial-gradient(900px 600px at 0% 20%,#4cc3ff22,transparent 60%),
+             linear-gradient(180deg,var(--bg),var(--bg2));
+  background-attachment:fixed;min-height:100vh;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--head);line-height:1.25;margin:0}
+h2{font-size:clamp(28px,4vw,40px);text-align:center;margin-bottom:10px}
+.lead{color:var(--soft);text-align:center;max-width:640px;margin:0 auto 36px;font-size:18px}
+section{padding:72px 0}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--head);font-weight:800;font-size:20px;text-decoration:none}
+.logo img{width:34px;height:34px}
+.bar nav{margin-inline-start:auto;display:flex;gap:6px;align-items:center}
+.bar nav a{text-decoration:none;color:var(--soft);padding:6px 10px;border-radius:10px;font-weight:500}
+.bar nav a:hover{color:var(--ink);background:var(--line)}
+.pill{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;
+  font:600 14px var(--body);cursor:pointer}
+@media (max-width:720px){.bar nav a.hide-sm{display:none}}
+
+/* hero */
+.hero{padding:70px 0 40px;text-align:center;position:relative}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:6px 14px;border-radius:99px;background:var(--card);
+  box-shadow:var(--shadow);font-weight:600;font-size:14px;color:var(--soft)}
+.badge b{background:var(--brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-size:clamp(44px,8vw,86px);margin:18px 0 6px;letter-spacing:-.5px}
+.hero h1 span{background:var(--brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-family:var(--head);font-size:clamp(22px,3.4vw,32px);font-weight:700;margin:0}
+.sub{color:var(--soft);font-size:18px;max-width:620px;margin:12px auto 30px}
+.cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;border:0;cursor:pointer;
+  font:700 19px var(--head);padding:15px 28px;border-radius:18px;color:#fff;background:var(--brand);
+  box-shadow:0 14px 34px -12px #8f7bffaa;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 18px 40px -12px #8f7bffcc}
+.btn small{font:500 13px var(--body);opacity:.9}
+.btn.ghost{background:var(--card);color:var(--ink);box-shadow:var(--shadow);font-size:16px;padding:11px 20px}
+.alt{font-size:14px;color:var(--soft)}
+.alt a{color:var(--soft)}
+.quote{margin:38px auto 0;font-family:var(--head);font-size:22px;color:var(--soft)}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:var(--card);border-radius:22px;padding:24px;box-shadow:var(--shadow);position:relative}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;inset-inline-start:20px;width:34px;height:34px;
+  border-radius:50%;background:var(--brand);color:#fff;font:800 18px/34px var(--head);text-align:center}
+.step h3{font-size:21px;margin:8px 0 6px}
+.step p{margin:0;color:var(--soft)}
+kbd{font:600 13px ui-monospace,monospace;background:var(--line);padding:2px 7px;border-radius:7px;white-space:nowrap}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.f{background:var(--card);border-radius:20px;padding:22px;box-shadow:var(--shadow);transition:transform .2s}
+.f:hover{transform:translateY(-3px)}
+.f .i{font-size:30px;line-height:1}
+.f h3{font-size:19px;margin:10px 0 4px}
+.f p{margin:0;color:var(--soft);font-size:15.5px}
+
+/* try it */
+.try{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+.code{background:#191b3d;color:#e9ebff;border-radius:20px;padding:18px 0;box-shadow:var(--shadow);direction:ltr;
+  font:14.5px/1.9 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;overflow:hidden}
+.code .ln{display:block;padding:0 20px;white-space:pre}
+.code .n{color:#7d80b8;user-select:none;display:inline-block;width:26px}
+.code .k{color:#ff8ec7}.code .s{color:#9be7c4}.code .c{color:#7d80b8}
+.acts{display:flex;flex-wrap:wrap;gap:10px}
+.acts .pill{font-size:15px;padding:10px 16px}
+.acts .pill:hover{border-color:var(--violet)}
+.note{color:var(--soft);font-size:15px;margin-top:12px}
+
+/* safety */
+.safe{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:880px;margin:0 auto}
+.safe div{display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow)}
+.safe span{font-size:24px;line-height:1.3}
+.safe p{margin:0}
+
+/* downloads */
+.dl{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.os{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.os.mine{outline:2.5px solid var(--violet)}
+.os h3{font-size:22px;display:flex;gap:8px;align-items:center}
+.os .tag2{font:600 12px var(--body);color:#fff;background:var(--violet);border-radius:99px;padding:2px 9px;margin-inline-start:auto}
+.os a.file{display:flex;justify-content:space-between;gap:8px;text-decoration:none;padding:10px 14px;border-radius:14px;
+  background:var(--line);font-weight:600}
+.os a.file:hover{background:color-mix(in srgb,var(--violet) 18%,transparent)}
+.os a.file small{color:var(--soft);font-weight:500}
+.ext{margin-top:16px;display:flex;align-items:center;gap:16px;background:var(--card);border-radius:22px;padding:20px 22px;box-shadow:var(--shadow)}
+.ext .i{font-size:34px}
+.ext p{margin:2px 0 0;color:var(--soft)}
+.ext .btn{margin-inline-start:auto;font-size:16px;padding:11px 20px}
+details.warn{max-width:880px;margin:22px auto 0;background:var(--card);border-radius:18px;padding:14px 18px;box-shadow:var(--shadow)}
+details.warn summary{cursor:pointer;font-weight:600}
+
+/* faq */
+.faq{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq details{background:var(--card);border-radius:16px;padding:14px 18px;box-shadow:var(--shadow)}
+.faq summary{cursor:pointer;font-weight:600;font-size:17px}
+.faq p{margin:8px 0 0;color:var(--soft)}
+
+footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
+
+@media (max-width:860px){
+  .steps,.grid,.dl{grid-template-columns:1fr 1fr}
+  .try{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .steps,.grid,.dl,.safe{grid-template-columns:1fr}
+  section{padding:52px 0}
+  .ext{flex-wrap:wrap}.ext .btn{margin-inline-start:0}
+}
+/* the stage she flies on: the whole window, clicks pass through except on her */
+#stage{position:fixed;inset:0;pointer-events:none;z-index:40}
+.hit-flash{animation:flash 1s ease}
+@keyframes flash{0%,100%{box-shadow:var(--shadow)}40%{box-shadow:0 0 0 4px var(--pink),var(--shadow)}}
+</style>
+</head>
+<body>
+<div id="stage" aria-hidden="false"></div>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="icon-512.png" alt="">Miss Blupsy</a>
+    <nav>
+      <a class="hide-sm" href="#how" data-t="nav.how"></a>
+      <a class="hide-sm" href="#features" data-t="nav.features"></a>
+      <a class="hide-sm" href="#download" data-t="nav.download"></a>
+      <button class="pill" id="lang" type="button">English</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">🫧 <b data-t="hero.badge"></b></div>
+      <h1><span>Miss Blupsy</span></h1>
+      <p class="tag" data-t="hero.tag"></p>
+      <p class="sub" data-t="hero.sub"></p>
+      <div class="cta">
+        <a class="btn" id="mainDl" href="#download"><span id="mainDlText"></span></a>
+        <div class="alt" id="mainAlt"></div>
+      </div>
+      <p class="quote" data-t="hero.quote"></p>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2 data-t="how.t"></h2>
+      <p class="lead" data-t="how.d"></p>
+      <div class="steps">
+        <div class="step"><h3 data-t="how.1t"></h3><p data-t="how.1d"></p></div>
+        <div class="step"><h3 data-t="how.2t"></h3><p data-t="how.2d"></p></div>
+        <div class="step"><h3 data-t="how.3t"></h3><p data-t="how.3d"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <h2 data-t="f.t"></h2>
+      <p class="lead" data-t="f.d"></p>
+      <div class="grid" id="featureGrid"></div>
+    </div>
+  </section>
+
+  <section id="try">
+    <div class="wrap">
+      <h2 data-t="try.t"></h2>
+      <p class="lead" data-t="try.d"></p>
+      <div class="try">
+        <div class="code" id="code"></div>
+        <div>
+          <div class="acts">
+            <button class="pill" data-act="mistake" data-t="try.mistake"></button>
+            <button class="pill" data-act="wave" data-t="try.wave"></button>
+            <button class="pill" data-act="clap" data-t="try.clap"></button>
+            <button class="pill" data-act="bubbles" data-t="try.bubbles"></button>
+            <button class="pill" data-act="sound" data-t="try.sound"></button>
+          </div>
+          <p class="note" data-t="try.note"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="safety">
+    <div class="wrap">
+      <h2 data-t="s.t"></h2>
+      <p class="lead" data-t="s.d"></p>
+      <div class="safe" id="safeList"></div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="wrap">
+      <h2 data-t="d.t"></h2>
+      <p class="lead" data-t="d.d"></p>
+      <div class="dl" id="dlGrid"></div>
+      <div class="ext">
+        <div class="i">🧩</div>
+        <div><b data-t="d.extT"></b><p data-t="d.extD"></p></div>
+        <a class="btn" id="extBtn" data-t="d.extBtn"></a>
+      </div>
+      <details class="warn">
+        <summary data-t="d.warnT"></summary>
+        <p data-t="d.warnWin"></p>
+        <p data-t="d.warnMac"></p>
+      </details>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2 data-t="q.t"></h2>
+      <div class="faq" id="faqList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-t="foot"></p>
+    <p>© Miss Blupsy</p>
+  </div>
+</footer>
+
+<script src="sound.js"></script>
+<script src="blupsy.js"></script>
+<script>
+(() => {
+  // ── where the files are ──
+  // the public home of the installers (the code itself stays private)
+  const REPO = 'https://github.com/Sul696/missblupsy-site';
+  const FILE = (name) => `${REPO}/releases/latest/download/${name}`;
+  const FILES = {
+    win: [['Miss-Blupsy-Windows-x64-Setup.exe', 'x64'], ['Miss-Blupsy-Windows-arm64-Setup.exe', 'ARM']],
+    mac: [['Miss-Blupsy-Mac-arm64.dmg', 'Apple Silicon'], ['Miss-Blupsy-Mac-x64.dmg', 'Intel']],
+    linux: [['Miss-Blupsy-Linux.AppImage', 'AppImage']],
+  };
+  const EXT = 'miss-blupsy.mcpb';
+
+  // ── words ──
+  const T = {
+    ar: {
+      'nav.how': 'كيف تشتغل', 'nav.features': 'وش تسوي', 'nav.download': 'التحميل',
+      'hero.badge': 'تشتغل مع أي ذكاء يدعم MCP',
+      'hero.tag': 'جسم للذكاء الاصطناعي.',
+      'hero.sub': 'فقاعة صغيرة تعيش على شاشتك: تسمعك، وتفتح لك البرامج والمواقع، وتأشر على الشاشة، وتعدّل ملفاتك. بدون أي مفتاح API.',
+      'hero.dl': 'حمّلها لـ {os}', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
+      'hero.quote': '«قلها… وتصير 🫧»',
+      'how.t': 'ثلاث خطوات وتبدأ', 'how.d': 'تحتاج بس تطبيق ذكاء يدعم MCP، مثل Claude أو Cursor.',
+      'how.1t': 'حمّلها وشغّلها', 'how.1d': 'تطلع لك من تحت الشاشة وتسلّم، وتختار شكلها وصوتها ووش مسموح لها.',
+      'how.2t': 'تربط نفسها بالذكاء', 'how.2d': 'تضيف نفسها لتطبيقات الذكاء اللي عندك بعد ما توافق، أو ركّب إضافتها بضغطة.',
+      'how.3t': 'كلّمها', 'how.3d': 'قل للذكاء: «خل Miss Blupsy تسلّم علي»، أو اضغط <kbd>Ctrl/⌘ + Shift + Space</kbd> وكلّمها.',
+      'f.t': 'وش تقدر تسوي', 'f.d': 'الذكاء يفكر، وهي تنفذ قدامك على الشاشة.',
+      'try.t': 'جرّبها هنا', 'try.d': 'هذي هي نفسها، بنفس المحرك اللي في البرنامج. اسحبها، ارمها، أو اطلب منها شي.',
+      'try.mistake': '🔴 دوّري على الغلط', 'try.wave': '👋 سلّمي', 'try.clap': '👏 صفّقي', 'try.bubbles': '🫧 فقاعات', 'try.sound': '🔊 شغّلي الصوت',
+      'try.note': 'في البرنامج تسوي أكثر بكثير: تشوف الشاشة (بإذنك)، وتضغط وتكتب، وتعدّل الكود مباشرة.',
+      's.t': 'آمنة من البداية', 's.d': 'كل شي يمر على قواعدها هي، حتى لو طلبه الذكاء.',
+      'd.t': 'التحميل', 'd.d': 'مجانية، لويندوز وماك ولينكس.',
+      'd.mine': 'جهازك',
+      'd.extT': 'إضافة Claude Desktop', 'd.extD': 'ملف واحد يتركّب في Claude بضغطة، ويشغّلها لما يحتاجها. وباقي التطبيقات تربط نفسها فيها لحالها.', 'd.extBtn': 'حمّل الإضافة',
+      'd.warnT': 'ويندوز أو ماك طلّع لك تحذير؟',
+      'd.warnWin': '<b>ويندوز:</b> اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». البرنامج للحين بدون شهادة توقيع.',
+      'd.warnMac': '<b>ماك:</b> اضغط على البرنامج بالزر اليمين ثم «فتح»، ثم «فتح» مرة ثانية.',
+      'q.t': 'أسئلة',
+      'foot': 'Miss Blupsy برنامج مستقل يشتغل مع تطبيقات الذكاء اللي تدعم MCP.',
+      'os.win': 'ويندوز', 'os.mac': 'ماك', 'os.linux': 'لينكس',
+      'b.hello': 'هلا! أنا Miss Blupsy 🫧',
+      'b.point': 'هذا لجهازك 👇', 'b.pointAny': 'من هنا تحمّلني 👇',
+      'b.mistake': 'الغلط هنا 👀 «=» بدل «===»',
+      'b.sound': 'الحين تسمعني! 🎶', 'b.soundOff': 'سكتت 🤫',
+      'b.how': 'سهلة، صدقني ✨', 'b.features': 'وهذا شوي من اللي أسويه 💪', 'b.safety': 'ما ألمس شي بدون إذنك 🔒', 'b.download': 'يلا! 🫧',
+      'b.claude': 'الذكاء يفكر، وأنا أنفذ 💜',
+      lines: {
+        poke: ['هيه! 😆', 'تدغدغني! 🫧', 'هلا والله! وش نسوي؟', 'بُب!'],
+        angry: 'لا تفقعني! 😤', forgive: '…طيب خلاص سامحتك 🫧', wake: 'هاه!! ما نمت، كنت أفكر 😳',
+        bored: ['طفشت… حمّلني وخلنا نشتغل 🥱', 'بسوي فقاعات لين ترجع 🫧'],
+        thrown: ['ويييي! 🎢', 'مرة ثانية! 😆', 'دختت… 😵‍💫'],
+      },
+      features: [
+        ['🧠', 'جسم للذكاء', 'الطلبات الكبيرة تروح لتطبيق الذكاء عندك، وهو يفكر ويشتغل بأدواتها قدامك ويرد في فقاعتها. ولو تكلّم بصوته، تسكت هي وتكتب.'],
+        ['🎙️', 'تسمعك على جهازك', 'تحوّل صوتك لنص على جهازك نفسه، وصوتك ما يطلع منه. وتفهم أكثر من لغة.'],
+        ['🚀', 'تنفذ على طول', 'تفتح المواقع والبرامج والمجلدات، وتدوّر، وتذكّرك، وتقول الساعة. بدون انتظار.'],
+        ['✏️', 'تعدّل الكود', '«صلحي الدالة واحفظي»: تعدّل الملف مباشرة، حتى لو كان كبير، وتاخذ نسخة احتياطية قبل.'],
+        ['🖥️', 'تتنقل بين أجهزتك', '«جيبي التقرير من كمبيوتر المكتب»: مشفّر، على شبكة بيتك، وحتى الملفات الضخمة. ولو انقطع النت تكمل من مكانها.'],
+        ['🔄', 'ملفك نفسه في كل مكان', 'عدّل الملف في جهاز، ويتحدّث في الباقي خلال أقل من ثانية. ينتقل بس الجزء اللي تغيّر.'],
+        ['👉', 'تعلّمك', 'تأشر على الشاشة، وتدوّر على الغلط بالأحمر.'],
+        ['📚', 'تتعلم أوامرك', '«لما أقول وضع الألعاب افتحي ستيم»، وبعدها تسويها لحالها، بدون نت.'],
+        ['🌍', '14 لغة', 'والعربية من اليمين لليسار، بلهجاتها.'],
+      ],
+      safe: [
+        ['🙋', 'تسألك قبل أي شي مهم: تشوف الشاشة، أو تضغط، أو تفتح ملف.'],
+        ['🙈', 'تغمض عيونها عن نوافذ البنوك وبرامج كلمات السر.'],
+        ['🔑', 'ما تكتب كلمات سر أبداً، ولا تدفع، ولا تشغّل برامج.'],
+        ['📝', 'تسجّل كل شي سوّته، وتقدر توقفها بزر Esc.'],
+        ['🏠', 'خادمها على جهازك بس، بمفتاح سري، وما يقبل طلبات من المتصفح.'],
+        ['🚫', 'ما فيها أي مفتاح API للذكاء: ما فيه شي يتسرّب.'],
+      ],
+      faq: [
+        ['هل هي مجانية؟', 'إيه، البرنامج والإضافة مجانيين. والذكاء يشتغل بحسابك في تطبيقه.'],
+        ['وش أحتاج عشان تشتغل؟', 'تطبيق ذكاء يدعم MCP (مثل Claude أو Cursor أو Windsurf أو VS Code)، وجهاز ويندوز أو ماك أو لينكس.'],
+        ['مع أي ذكاء تشتغل؟', 'هي أداة MCP، فتشتغل مع أي تطبيق يدعم MCP: Claude وCursor وWindsurf وVS Code وغيرها. وتربط نفسها فيهم لحالها.'],
+        ['هل تشوف شاشتي دايماً؟', 'لا. ما تشوف إلا لما يطلب الذكاء وتوافق أنت (أو تسمح لها من البداية). ونوافذ البنوك ما تصوّرها أبداً.'],
+        ['هل صوتي يطلع من جهازي؟', 'لا. السمع يصير على جهازك نفسه، وبعد أول تحميل يشتغل بدون نت.'],
+      ],
+    },
+    en: {
+      'nav.how': 'How it works', 'nav.features': 'Features', 'nav.download': 'Download',
+      'hero.badge': 'Works with any MCP AI app',
+      'hero.tag': 'A body for AI.',
+      'hero.sub': 'A little bubble that lives on your screen: she hears you, opens your apps and sites, points at things, and edits your files. No API key needed.',
+      'hero.dl': 'Download for {os}', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
+      'hero.quote': '“Say it… and pop 🫧”',
+      'how.t': 'Three steps to start', 'how.d': 'All you need is an AI app that supports MCP, like Claude or Cursor.',
+      'how.1t': 'Download and open', 'how.1d': 'She rises from the bottom of your screen, says hi, and you pick her look, her voice and what she may do.',
+      'how.2t': 'She links herself to your AI', 'how.2d': 'She adds herself to your AI apps once you say yes, or install her extension in one click.',
+      'how.3t': 'Talk to her', 'how.3d': 'Tell your AI: “Have Miss Blupsy say hi”, or press <kbd>Ctrl/⌘ + Shift + Space</kbd> and talk.',
+      'f.t': 'What she can do', 'f.d': 'The AI thinks; she acts, right there on your screen.',
+      'try.t': 'Try her here', 'try.d': 'This is really her, with the same engine as the app. Drag her, throw her, or ask her for something.',
+      'try.mistake': '🔴 Find the mistake', 'try.wave': '👋 Wave', 'try.clap': '👏 Clap', 'try.bubbles': '🫧 Bubbles', 'try.sound': '🔊 Turn sound on',
+      'try.note': 'In the app she does much more: she sees the screen (with your OK), clicks and types, and edits code directly.',
+      's.t': 'Safe from the start', 's.d': 'Everything goes through her own rules, even when the AI asks.',
+      'd.t': 'Download', 'd.d': 'Free, for Windows, Mac and Linux.',
+      'd.mine': 'Your computer',
+      'd.extT': 'Claude Desktop extension', 'd.extD': 'One file that installs into Claude in a click and starts her when needed. Other apps get linked automatically.', 'd.extBtn': 'Get the extension',
+      'd.warnT': 'Did Windows or Mac show a warning?',
+      'd.warnWin': '<b>Windows:</b> click “More info”, then “Run anyway”. The app isn’t code-signed yet.',
+      'd.warnMac': '<b>Mac:</b> right-click the app and choose “Open”, then “Open” again.',
+      'q.t': 'Questions',
+      'foot': 'Miss Blupsy is an independent app that works with AI apps that support MCP.',
+      'os.win': 'Windows', 'os.mac': 'Mac', 'os.linux': 'Linux',
+      'b.hello': 'Hi! I’m Miss Blupsy 🫧',
+      'b.point': 'This one’s for you 👇', 'b.pointAny': 'Get me here 👇',
+      'b.mistake': 'Here it is 👀 “=” instead of “===”',
+      'b.sound': 'Now you can hear me! 🎶', 'b.soundOff': 'Shh 🤫',
+      'b.how': 'Easy, promise ✨', 'b.features': 'A few of the things I do 💪', 'b.safety': 'I never touch anything without asking 🔒', 'b.download': 'Let’s go! 🫧',
+      'b.claude': 'The AI thinks, I do 💜',
+      lines: {
+        poke: ['Hey! 😆', 'That tickles! 🫧', 'Hi there! What are we doing?', 'Bub!'],
+        angry: 'Don’t pop me! 😤', forgive: '…okay, you’re forgiven 🫧', wake: 'Huh!! I wasn’t asleep, I was thinking 😳',
+        bored: ['Bored… download me and let’s get to work 🥱', 'Blowing bubbles till you’re back 🫧'],
+        thrown: ['Wheee! 🎢', 'Again! 😆', 'So dizzy… 😵‍💫'],
+      },
+      features: [
+        ['🧠', 'A body for AI', 'Big requests go to your AI app, which thinks and works through her tools in front of you, answering in her bubble. When the AI talks with its own voice, she just writes.'],
+        ['🎙️', 'She hears you, on your computer', 'Your voice becomes text on your own computer and never leaves it. Many languages.'],
+        ['🚀', 'Instant actions', 'She opens sites, apps and folders, searches, reminds you, tells the time. No waiting.'],
+        ['✏️', 'Edits your code', '“Fix that function and save”: she edits the file directly, even a big one, after taking a backup.'],
+        ['🖥️', 'Moves between your computers', '“Bring the report from my office PC”: encrypted, on your home network, even huge files. If the connection drops, she carries on where it stopped.'],
+        ['🔄', 'The same file everywhere', 'Edit a file on one computer and it updates on the others in under a second. Only the changed part travels.'],
+        ['👉', 'She teaches', 'She points at the screen and circles mistakes in red.'],
+        ['📚', 'Learns your commands', '“When I say game mode, open Steam”, and from then on she does it herself, offline.'],
+        ['🌍', '14 languages', 'Including right-to-left Arabic.'],
+      ],
+      safe: [
+        ['🙋', 'She asks before anything that matters: looking at the screen, clicking, opening a file.'],
+        ['🙈', 'She shuts her eyes to banking and password apps.'],
+        ['🔑', 'She never types passwords, never pays, never runs programs.'],
+        ['📝', 'She logs everything she does, and Esc stops her.'],
+        ['🏠', 'Her control server lives only on your computer, with a secret key, and refuses browsers.'],
+        ['🚫', 'No AI API key inside: nothing to leak.'],
+      ],
+      faq: [
+        ['Is she free?', 'Yes, the app and the extension are free. The AI runs on your own account in its app.'],
+        ['What do I need?', 'An AI app that supports MCP (like Claude, Cursor, Windsurf or VS Code), and a Windows, Mac or Linux computer.'],
+        ['Which AI does she work with?', 'She is an MCP tool, so any app that supports MCP: Claude, Cursor, Windsurf, VS Code and more. She links herself to them.'],
+        ['Does she always see my screen?', 'No. Only when the AI asks and you agree (or allowed it from the start). Banking windows are never captured.'],
+        ['Does my voice leave my computer?', 'No. Listening happens on your computer, and works offline after the first download.'],
+      ],
+    },
+  };
+
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  let lang = 'ar';
+  try { lang = localStorage.getItem('mb-lang') || ''; } catch { lang = ''; }
+  if (!T[lang]) lang = /^ar\b/i.test(navigator.language || '') ? 'ar' : 'en';
+  const t = (k, v) => String(T[lang][k] ?? T.en[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (v && v[n]) ?? '');
+
+  // ── which computer is this ──
+  let os = null, arm = false;
+  const ua = navigator.userAgent || '';
+  const plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  if (/win/i.test(plat) || /Windows/.test(ua)) os = 'win';
+  else if (/mac/i.test(plat) || /Mac OS X/.test(ua)) os = /iPhone|iPad/.test(ua) || navigator.maxTouchPoints > 1 ? null : 'mac';
+  else if (/linux/i.test(plat) && !/Android/.test(ua)) os = 'linux';
+  if (os === 'mac') arm = true; // almost every Mac sold since 2020; Intel is one click away
+  if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+    navigator.userAgentData.getHighEntropyValues(['architecture']).then((v) => {
+      if (os === 'win' && v.architecture === 'arm') { arm = true; render(); }
+      if (os === 'mac' && v.architecture === 'x86') { arm = false; render(); }
+    }).catch(() => {});
+  }
+  const primaryFile = () => !os ? null : os === 'win' ? FILES.win[arm ? 1 : 0] : os === 'mac' ? FILES.mac[arm ? 0 : 1] : FILES.linux[0];
+
+  // ── page text ──
+  function render() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    $('#lang').textContent = lang === 'ar' ? 'English' : 'العربية';
+    for (const el of $$('[data-t]')) el.innerHTML = t(el.dataset.t);
+    const p = primaryFile();
+    $('#mainDlText').textContent = p ? t('hero.dl', { os: t('os.' + os) }) : t('hero.dlAny');
+    $('#mainDl').href = p ? FILE(p[0]) : '#download';
+    $('#mainAlt').innerHTML = t('hero.alt');
+    $('#featureGrid').innerHTML = T[lang].features.map(([i, h, d]) => `<div class="f"><div class="i">${i}</div><h3>${esc(h)}</h3><p>${esc(d)}</p></div>`).join('');
+    $('#safeList').innerHTML = T[lang].safe.map(([i, d]) => `<div><span>${i}</span><p>${esc(d)}</p></div>`).join('');
+    $('#faqList').innerHTML = T[lang].faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+    const icons = { win: '🪟', mac: '🍎', linux: '🐧' };
+    $('#dlGrid').innerHTML = ['win', 'mac', 'linux'].map((k) => `
+      <div class="os${k === os ? ' mine' : ''}" id="os-${k}">
+        <h3>${icons[k]} ${t('os.' + k)}${k === os ? `<span class="tag2">${t('d.mine')}</span>` : ''}</h3>
+        ${FILES[k].map(([f, label]) => `<a class="file" href="${FILE(f)}"><span>${label}</span><small>${f.split('.').pop()}</small></a>`).join('')}
+      </div>`).join('');
+    $('#extBtn').href = FILE(EXT);
+    if (b) b.lines = Object.assign({}, b.lines, T[lang].lines);
+  }
+
+  // a sample with one mistake in it, for her to find
+  const CODE = [
+    ['c', '// check the password length'],
+    ['', 'function strong(pw) {'],
+    ['', '  if (pw.length < 12) return false;'],
+    ['bug', '  if (pw = "") return false;'],
+    ['', '  return /[0-9]/.test(pw);'],
+    ['', '}'],
+  ];
+  const paint = (s) => esc(s).replace(/\b(function|return|if)\b/g, '<span class="k">$1</span>').replace(/(&quot;.*?&quot;|\/\[0-9\]\/)/g, '<span class="s">$1</span>');
+  $('#code').innerHTML = CODE.map(([k, s], i) => `<span class="ln"${k === 'bug' ? ' id="bug"' : ''}><span class="n">${i + 1}</span>${k === 'c' ? `<span class="c">${esc(s)}</span>` : paint(s)}</span>`).join('');
+
+  // ── her ──
+  const stage = $('#stage');
+  const small = () => innerWidth < 560;
+  // quiet until the visitor turns her sound on
+  const sound = typeof BlupsySound === 'function' ? new BlupsySound({ voice: 'babble', night: false }) : null;
+  if (sound) sound.mute(true);
+  let b = null;
+  try {
+    b = new MissBlupsy(stage, {
+      sound, size: small() ? 26 : 34, boredAfter: 40, sleepAfter: 120,
+      font: '"Baloo Bhaijaan 2","IBM Plex Sans Arabic",system-ui,sans-serif',
+      lines: T[lang].lines,
+    });
+  } catch (e) { b = null; }
+  render();
+  if (!b) return;
+
+  // one thing at a time: what you ask waits its turn, her own remarks are skipped while she is busy
+  let busy = 0;
+  let chain = Promise.resolve();
+  const job = (fn) => { busy += 1; chain = chain.then(fn).catch(() => {}).finally(() => { busy -= 1; }); return chain; };
+  const center = (el, ax = 0.5, ay = 0.5) => { const r = el.getBoundingClientRect(); return { x: r.left + r.width * ax, y: r.top + r.height * ay, r }; };
+  const home = () => {
+    const R = small() ? 26 : 34;
+    return { x: document.documentElement.dir === 'rtl' ? R * 2.6 : innerWidth - R * 2.6, y: innerHeight - R * 3.2 };
+  };
+  const visible = (el) => { const r = el.getBoundingClientRect(); return r.top > 60 && r.bottom < innerHeight - 20; };
+
+  // she says hello, then shows where to get her
+  (async () => {
+    await wait(500);
+    const h = home();
+    await b.enter(h.x, h.y, t('b.hello'));
+    await wait(400);
+    const btn = $('#mainDl');
+    if (visible(btn)) await job(async () => {
+      const c = center(btn, document.documentElement.dir === 'rtl' ? 1 : 0, 0.5);
+      await b.pointAt(c.x, c.y, { say: primaryFile() ? t('b.point') : t('b.pointAny'), hold: 2600 });
+      const back = home();
+      await b.flyTo(back.x, back.y, { style: 'soft' });
+    });
+  })();
+
+  // her eyes follow the mouse
+  addEventListener('pointermove', (e) => b.setCursor(e.clientX, e.clientY), { passive: true });
+
+  // a word for each part of the page, once, the first time it comes into view
+  const said = new Set();
+  const notes = { how: 'b.how', features: 'b.features', safety: 'b.safety', download: 'b.download' };
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      const id = en.target.id;
+      if (!en.isIntersecting || said.has(id) || busy) continue;
+      said.add(id);
+      job(async () => {
+        const h2 = en.target.querySelector('h2');
+        const c = center(h2);
+        const side = document.documentElement.dir === 'rtl' ? -1 : 1;
+        const x = Math.max(60, Math.min(innerWidth - 60, c.x + side * (c.r.width / 2 + 70)));
+        await b.flyTo(x, Math.max(90, c.y), { style: 'soft' });
+        if (id === 'download' && os) $('#os-' + os).classList.add('hit-flash');
+        await b.say(t(notes[id]), { hold: 2200 });
+        const h = home();
+        await b.flyTo(h.x, h.y, { style: 'soft' });
+      });
+    }
+  }, { threshold: 0.45 });
+  for (const id of Object.keys(notes)) io.observe(document.getElementById(id));
+
+  // when you go for a download, she looks
+  for (const a of $$('#dlGrid a, #mainDl, #extBtn')) a.addEventListener('pointerenter', () => { const c = center(a); b.lookAt(c.x, c.y); setTimeout(() => b.lookAt(null), 1200); });
+
+  // the "try her" buttons
+  const acts = {
+    async mistake() {
+      const bug = $('#bug');
+      bug.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      await wait(450);
+      const r = bug.getBoundingClientRect();
+      const code = $('#code').getBoundingClientRect();
+      await b.markMistake({ x: code.left + 46, y: r.top, w: Math.min(r.width - 60, 250), h: r.height }, t('b.mistake'));
+    },
+    async wave() { await b.wave(1600); },
+    async clap() { await b.clap(1400); },
+    async bubbles() { for (let i = 0; i < 4; i++) { b.blowBubble(); await wait(260); } },
+    async sound(btn) {
+      if (!sound) return;
+      sound.unlock();
+      const on = sound.muted;
+      sound.mute(!on);
+      btn.textContent = on ? '🔇' : t('try.sound');
+      await b.say(on ? t('b.sound') : t('b.soundOff'));
+    },
+  };
+  for (const btn of $$('[data-act]')) btn.addEventListener('click', () => job(() => acts[btn.dataset.act](btn)));
+
+  $('#lang').addEventListener('click', () => {
+    lang = lang === 'ar' ? 'en' : 'ar';
+    try { localStorage.setItem('mb-lang', lang); } catch { /* private window */ }
+    render();
+    const h = home();
+    job(async () => { await b.flyTo(h.x, h.y, { style: 'soft' }); await b.say(t('b.claude')); });
+  });
+
+  // her red circle belongs to a spot on the page: it goes when the page moves
+  addEventListener('scroll', () => b.clearMarks(), { passive: true });
+  addEventListener('resize', () => { if (!busy) { const h = home(); b.flyTo(h.x, h.y, { style: 'soft' }); } });
+})();
+</script>
+</body>
+</html>
