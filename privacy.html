@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miss Blupsy · Privacy</title>
+<meta name="description" content="What Miss Blupsy does with your data: it stays on your computer.">
+<link rel="icon" href="icon-512.png">
+<link rel="canonical" href="https://missblupsy.com/privacy.html">
+<style>
+:root{--bg:#f7f3ff;--ink:#1a1d4a;--soft:#585c8a;--card:#fff;--line:#1a1d4a1a;--accent:#8f7bff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#12132b;--ink:#eef0ff;--soft:#a8acd6;--card:#1d2045;--line:#ffffff1a;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,"Segoe UI","IBM Plex Sans Arabic",sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:28px 16px 60px}
+a{color:var(--accent)}
+header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+header img{width:36px;height:36px}
+header a{font-weight:800;font-size:19px;color:var(--ink);text-decoration:none}
+nav{margin-inline-start:auto;display:flex;gap:14px;font-size:15px}
+h1{font-size:32px;line-height:1.25;margin:10px 0 4px}
+h2{font-size:21px;margin:28px 0 6px}
+.card{background:var(--card);border-radius:18px;padding:6px 22px 18px;box-shadow:0 0 0 1px var(--line);margin-top:22px}
+.muted{color:var(--soft)}
+ul{padding-inline-start:22px}
+.ar{direction:rtl;text-align:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="icon-512.png" alt=""><a href="./">Miss Blupsy</a>
+    <nav><a href="help.html">Help</a><a href="#ar">العربية</a></nav></header>
+
+  <h1>Privacy policy</h1>
+  <p class="muted">Last updated: 3 October 2026. Applies to the Miss Blupsy app, its extension for AI apps (MCP), and this website.</p>
+
+  <div class="card">
+    <h2>In short</h2>
+    <p>Miss Blupsy runs on your computer. We have no servers, no accounts and no analytics: <b>we do not collect, receive or store any of your data.</b> What she sees, hears and does stays on your computer, except where you send it somewhere yourself, as described below.</p>
+
+    <h2>Your voice</h2>
+    <p>When you call her to listen, your voice is turned into text <b>on your computer</b> (with the open Whisper model). Your voice is never sent anywhere. The speech model is downloaded once from Hugging Face the first time you use listening.</p>
+
+    <h2>Your screen</h2>
+    <p>She takes a picture of your screen only when the AI app you use asks her to, and only with your permission (you choose "ask me", "allow" or "never"). She never captures windows of banking or password apps. The picture is handed to <b>the AI app you are using</b> (for example Claude), which handles it under that app's own privacy policy.</p>
+
+    <h2>Files</h2>
+    <p>She reads, edits or opens files only inside the folders you allow, and keeps a backup before any edit, on your computer. File contents she reads are handed to the AI app you are using, as above.</p>
+
+    <h2>Your other computers</h2>
+    <p>If you link your own computers ("My devices"), files and requests travel directly between them on your local network, end-to-end encrypted (X25519 + AES-256-GCM). Nothing goes through any server of ours.</p>
+
+    <h2>Optional natural voice</h2>
+    <p>By default she speaks with your computer's own voice. If you choose a natural voice and enter your own key from Google Gemini, Microsoft Azure, OpenAI or ElevenLabs, the text of what she says is sent to that provider to be spoken, under that provider's privacy policy. Your key is stored encrypted with your operating system's keychain.</p>
+
+    <h2>What stays on your computer</h2>
+    <ul>
+      <li>Your settings, what she learned (in <code>~/.miss-blupsy/memory.json</code>), and backups of edited files.</li>
+      <li>An activity log of the actions she took (<code>~/.miss-blupsy/activity.log</code>), without the text you typed.</li>
+    </ul>
+    <p>You can delete any of these at any time. Uninstalling the app and deleting the <code>~/.miss-blupsy</code> folder removes everything.</p>
+
+    <h2>The AI app you connect</h2>
+    <p>Miss Blupsy is a tool that AI apps use. What you say to the AI app, and what she hands to it, is handled by that app (for example Anthropic for Claude) under its own privacy policy, not by us.</p>
+
+    <h2>This website</h2>
+    <p>No cookies and no tracking. It remembers your chosen language in your own browser only. Fonts load from Google Fonts, and downloads come from GitHub, which see your IP address like any website you visit.</p>
+
+    <h2>Children</h2>
+    <p>Miss Blupsy is not directed at children under 13, and collects no personal information from anyone.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about privacy: <a href="https://github.com/Sul696/missblupsy-site/issues">open an issue</a>. If this policy changes, the new version is posted on this page with its date.</p>
+  </div>
+
+  <div class="card ar" id="ar" dir="rtl" lang="ar">
+    <h2>سياسة الخصوصية (بالعربي)</h2>
+    <p><b>باختصار:</b> Miss Blupsy تشتغل على جهازك. ما عندنا خوادم ولا حسابات ولا إحصائيات، و<b>ما نجمع أي بيانات منك.</b></p>
+    <ul>
+      <li><b>صوتك:</b> يتحوّل لنص على جهازك نفسه، وما يطلع منه أبداً. موديل السمع ينزل مرة وحدة من Hugging Face.</li>
+      <li><b>شاشتك:</b> ما تصوّرها إلا لما يطلب تطبيق الذكاء وبإذنك، وما تصوّر نوافذ البنوك وكلمات السر أبداً. والصورة تروح لتطبيق الذكاء اللي تستخدمه (مثل Claude) حسب سياسته.</li>
+      <li><b>الملفات:</b> داخل المجلدات اللي تسمح فيها بس، وتاخذ نسخة احتياطية على جهازك قبل أي تعديل.</li>
+      <li><b>أجهزتك:</b> النقل بينها مباشر على شبكة بيتك ومشفّر، وما يمر على أي خادم.</li>
+      <li><b>الصوت الواقعي (اختياري):</b> لو حطيت مفتاحك من Google أو Azure أو OpenAI أو ElevenLabs، نص كلامها يروح لهالشركة عشان تنطقه، والمفتاح محفوظ مشفّر في جهازك.</li>
+      <li><b>الموقع:</b> بدون كوكيز وبدون تتبّع.</li>
+    </ul>
+    <p>للتواصل: <a href="https://github.com/Sul696/missblupsy-site/issues">افتح طلب هنا</a>.</p>
+  </div>
+</div>
+</body>
+</html>

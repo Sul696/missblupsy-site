@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miss Blupsy · Help</title>
+<meta name="description" content="How to set up Miss Blupsy with your AI app, examples, and support.">
+<link rel="icon" href="icon-512.png">
+<link rel="canonical" href="https://missblupsy.com/help.html">
+<style>
+:root{--bg:#f7f3ff;--ink:#1a1d4a;--soft:#585c8a;--card:#fff;--line:#1a1d4a1a;--accent:#8f7bff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#12132b;--ink:#eef0ff;--soft:#a8acd6;--card:#1d2045;--line:#ffffff1a;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,"Segoe UI","IBM Plex Sans Arabic",sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:28px 16px 60px}
+a{color:var(--accent)}
+header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+header img{width:36px;height:36px}
+header a{font-weight:800;font-size:19px;color:var(--ink);text-decoration:none}
+nav{margin-inline-start:auto;display:flex;gap:14px;font-size:15px}
+h1{font-size:32px;line-height:1.25;margin:10px 0 4px}
+h2{font-size:21px;margin:28px 0 6px}
+.card{background:var(--card);border-radius:18px;padding:6px 22px 18px;box-shadow:0 0 0 1px var(--line);margin-top:22px}
+.muted{color:var(--soft)}
+ul{padding-inline-start:22px}
+.ar{direction:rtl;text-align:right}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="icon-512.png" alt=""><a href="./">Miss Blupsy</a>
+    <nav><a href="privacy.html">Privacy</a><a href="#ar">العربية</a></nav></header>
+
+  <h1>Help</h1>
+  <p class="muted">Miss Blupsy is a body for AI: a little bubble on your desktop that your AI app (Claude, Cursor, Windsurf, VS Code, or any app that supports MCP) can use to talk, point, see your screen with your permission, and act.</p>
+
+  <div class="card">
+    <h2>Set up</h2>
+    <ol>
+      <li>Download the app from <a href="./#download">missblupsy.com</a> and open it. She rises from the bottom of your screen and helps you choose her look, voice and permissions.</li>
+      <li>Link her to your AI app: she offers to add herself to the AI apps she finds. For Claude Desktop you can also install the extension (<code>miss-blupsy.mcpb</code>): open it, or drag it into Claude → Settings → Extensions.</li>
+      <li>Restart the AI app, then ask it: <i>“Have Miss Blupsy say hi.”</i></li>
+    </ol>
+    <p>The extension starts the app by itself whenever the AI needs her.</p>
+
+    <h2>Examples</h2>
+    <p><b>1. Talk and show feelings.</b> <i>“Have Miss Blupsy tell me the meeting starts in 5 minutes, and look excited.”</i><br>
+    <span class="muted">Uses <code>say</code> with a mood. She shows the line in her speech bubble and speaks it.</span></p>
+    <p><b>2. Point out a mistake on screen.</b> <i>“Look at my screen and show me where the error in this spreadsheet is.”</i><br>
+    <span class="muted">Uses <code>see_screen</code> (she asks your permission first), then <code>mark_mistake</code> to circle it in red with a short explanation.</span></p>
+    <p><b>3. Fix a file directly.</b> <i>“In notes/todo.md, change ‘Friday’ to ‘Monday’ and save it.”</i><br>
+    <span class="muted">Uses <code>read_file</code> and <code>edit_file</code>. A backup of the old file is kept first, and only allowed folders are touched.</span></p>
+    <p><b>4. Remind you.</b> <i>“Have Miss Blupsy remind me to stretch in 20 minutes.”</i><br>
+    <span class="muted">Uses <code>remind</code>. When it is time she flies out with the reminder.</span></p>
+    <p><b>5. Bring a file from your other computer.</b> <i>“Get the budget file from my office PC.”</i><br>
+    <span class="muted">Uses <code>fetch_file</code> after you linked your computers in “My devices”. It travels encrypted on your home network.</span></p>
+
+    <h2>Permissions and safety</h2>
+    <ul>
+      <li>Looking at the screen, opening apps and files, and using the mouse and keyboard each have their own setting: allow, ask me first, or never.</li>
+      <li>She never captures banking or password apps, never types passwords, never pays, and never runs programs.</li>
+      <li>Press <kbd>Esc</kbd> to stop her while she uses the mouse or keyboard. Every action is logged on your computer.</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+      <li><b>The AI says Miss Blupsy is not running:</b> open the Miss Blupsy app once; the extension starts it after that.</li>
+      <li><b>The tools don’t appear in the AI app:</b> fully quit the AI app (not just close its window) and open it again.</li>
+      <li><b>Windows or macOS shows a warning when installing:</b> the app is not code-signed yet. On Windows choose “More info” → “Run anyway”; on Mac right-click the app → “Open”.</li>
+    </ul>
+
+    <h2>Support</h2>
+    <p>Questions, problems or ideas: <a href="https://github.com/Sul696/missblupsy-site/issues">open an issue</a>.</p>
+  </div>
+
+  <div class="card ar" id="ar" dir="rtl" lang="ar">
+    <h2>المساعدة (بالعربي)</h2>
+    <ol>
+      <li>حمّل البرنامج من <a href="./#download">missblupsy.com</a> وشغّله.</li>
+      <li>تربط نفسها بتطبيق الذكاء عندك، أو ركّب إضافة Claude Desktop (<code>miss-blupsy.mcpb</code>).</li>
+      <li>أعد تشغيل تطبيق الذكاء وقل له: «خل Miss Blupsy تسلّم علي».</li>
+    </ol>
+    <p><b>أمثلة:</b> «خلها تقول لي الاجتماع بعد ٥ دقايق وهي مستأنسة»، «شوف شاشتي ووريني وين الغلط»، «في ملف notes/todo.md غيّر الجمعة للاثنين واحفظ»، «ذكّرني أتمدد بعد ٢٠ دقيقة»، «جيب ملف الميزانية من كمبيوتر المكتب».</p>
+    <p>للمساعدة: <a href="https://github.com/Sul696/missblupsy-site/issues">افتح طلب هنا</a>.</p>
+  </div>
+</div>
+</body>
+</html>
