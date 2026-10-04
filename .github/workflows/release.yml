@@ -1,0 +1,171 @@
+# The Miss Blupsy factory. Public repositories get GitHub Actions minutes for free, so tests and
+# installers are built here: the code is fetched from the private repository for the build only
+# (it is never stored here), and what comes out is published here: the installers as a release,
+# the website on the main branch (GitHub Pages serves it at missblupsy.com).
+#
+# Needs the PRIVATE_REPO_TOKEN secret: a fine-grained token with read access ("Contents: Read") to
+# Sul696/miss-blupsy. Optional signing secrets: CSC_LINK, CSC_KEY_PASSWORD, APPLE_ID,
+# APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID, WIN_CSC_LINK, WIN_CSC_KEY_PASSWORD.
+#
+# Run it from the Actions tab: "what" = test (any branch), release (installers + website) or site.
+name: factory
+on:
+  workflow_dispatch:
+    inputs:
+      what:
+        description: 'test, release or site'
+        type: choice
+        options: [test, release, site]
+        default: test
+      ref:
+        description: 'Branch or tag of Sul696/miss-blupsy'
+        type: string
+        default: main
+permissions:
+  contents: read
+concurrency:
+  group: factory-${{ inputs.what }}-${{ inputs.ref }}
+  cancel-in-progress: true
+env:
+  SOURCE: Sul696/miss-blupsy
+
+jobs:
+  test:
+    if: inputs.what != 'site'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-14, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE }}
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: src
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: src/app
+      - run: npm test
+        working-directory: src/app
+
+  prepare:
+    if: inputs.what == 'release'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE }}
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: src
+      - id: version
+        run: echo "tag=v$(node -p "require('./src/app/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Make the release (empty until the installers arrive)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target main --title "Miss Blupsy $TAG" \
+              --notes "Download Miss Blupsy for your computer. More at https://missblupsy.com" --latest
+          fi
+
+  installers:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            target: --mac
+          - os: windows-latest
+            target: --win
+          - os: ubuntu-latest
+            target: --linux
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE }}
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: src
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: src/app
+      - name: Build installers
+        working-directory: src/app
+        shell: bash
+        run: |
+          # unsigned when no certificate is configured
+          if [ -z "$CSC_LINK" ]; then export CSC_IDENTITY_AUTO_DISCOVERY=false; unset CSC_LINK CSC_KEY_PASSWORD; fi
+          npm run build -- ${{ matrix.target }} --publish never
+        env:
+          CSC_LINK: ${{ runner.os == 'Windows' && secrets.WIN_CSC_LINK || secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ runner.os == 'Windows' && secrets.WIN_CSC_KEY_PASSWORD || secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      - name: Build the Claude extension (.mcpb)
+        if: runner.os == 'Linux'
+        working-directory: src/app
+        run: npm run mcpb
+      - name: Add the files to the release
+        working-directory: src/app
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          files=(dist/*.dmg dist/*.zip dist/*.exe dist/*.AppImage dist/*.mcpb)
+          [ ${#files[@]} -gt 0 ] || { echo "::error::No installers were built."; exit 1; }
+          gh release upload "${{ needs.prepare.outputs.tag }}" "${files[@]}" --clobber --repo "$GITHUB_REPOSITORY"
+
+  site:
+    needs: [installers]
+    # a site-only run has no installers job: run anyway, but never after a failed release
+    if: always() && (inputs.what == 'site' || needs.installers.result == 'success')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: public
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE }}
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: src
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node src/site/build.js
+      - name: Publish the website
+        run: |
+          # replace the site files, keep this repository's own README, workflows and history
+          find public -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name README.md -exec rm -rf {} +
+          cp -R src/site/dist/. public/
+          cd public
+          git config user.name "Miss Blupsy"
+          git config user.email "noreply@missblupsy.com"
+          git add -A
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "Website update"
+          git push
