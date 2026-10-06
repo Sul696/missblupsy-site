@@ -504,7 +504,7 @@ void main(){
         root.addEventListener('resize', () => this._resize());
       }
       this._frame = this._frame.bind(this);
-      requestAnimationFrame(this._frame);
+      this._schedule(0);
     }
 
     // ───────────── public API ─────────────
@@ -833,7 +833,7 @@ void main(){
 
     /** Start / stop the frame loop (e.g. when the overlay is hidden). */
     pause() { this._running = false; }
-    resume() { if (!this._running) { this._running = true; this._last = performance.now(); requestAnimationFrame(this._frame); } }
+    resume() { if (!this._running) { this._running = true; this._last = performance.now(); this._schedule(0); } }
 
     destroy() {
       this._running = false;
@@ -908,7 +908,7 @@ void main(){
 
     _bindInput() {
       const hit = this.hit;
-      hit.addEventListener('pointerenter', () => { this.hover = true; this._setInteractive(true); });
+      hit.addEventListener('pointerenter', () => { this.hover = true; this._wake(); this._setInteractive(true); });
       hit.addEventListener('pointerleave', () => { this.hover = false; if (!this.dragInfo) this._setInteractive(this._sayHasButtons()); });
       this.sayEl.addEventListener('pointerenter', () => this._setInteractive(true));
       this.sayEl.addEventListener('pointerleave', () => this._setInteractive(this.hover || this._sayHasButtons()));
@@ -916,6 +916,7 @@ void main(){
         e.preventDefault();
         hit.setPointerCapture && hit.setPointerCapture(e.pointerId);
         this.dragInfo = { id: e.pointerId, sx: e.clientX, sy: e.clientY, moved: false, samples: [], ox: 0, oy: 0 };
+        this._wake();
         const r = this.container.getBoundingClientRect();
         this.dragInfo.ox = this.pos.x - (e.clientX - r.left);
         this.dragInfo.oy = this.pos.y - (e.clientY - r.top);
@@ -1022,6 +1023,7 @@ void main(){
     _touch(wake = true) {
       this.lastActive = performance.now();
       this.idleStage = 0;
+      this._wake();
       if (wake && (this.moodName === 'bored' || this.moodName === 'sleeping') && !this._inIdleChange) {
         this.moodName = 'idle'; this.mood = MOODS.idle; this.moodTint = null;
       }
@@ -1079,30 +1081,61 @@ void main(){
     /**
      * How often to draw right now, in seconds. She lives on screen all day, so frames are spent only where
      * they show: full smoothness (capped at 60 fps, also on 120/144 Hz screens) while she moves, talks, is
-     * touched or plays an effect; 30 fps for her slow float; 15 fps asleep; almost nothing when hidden.
+     * touched or plays an effect; 30 fps for her slow float; 20 fps bored (she barely moves); 15 fps
+     * asleep; almost nothing when hidden.
      */
     _frameInterval(now) {
       if (this.mode === 'hidden' && !this.fx.length && !(this._S > 0.01)) return 0.25;
       if (this.mode !== 'hover' || this.talk || this.dragInfo || this.hover || this.pointTarget || this.armOverride || this.pop > 0.001) return 1 / 60;
       if (now - (this.lastActive || 0) < 1500) return 1 / 60;
       for (const p of this.fx) if (!CALM_FX.has(p.type) || (p.type === 'scribble' && p.life < 1.2)) return 1 / 60;
-      return this.moodName === 'sleeping' ? 1 / 15 : 1 / 30;
+      return this.moodName === 'sleeping' ? 1 / 15 : this.moodName === 'bored' ? 1 / 20 : 1 / 30;
+    }
+
+    /**
+     * Ask for the next frame. While she moves it comes at the screen's next refresh; when she is calm
+     * (30 fps or less) a timer wakes her a little before it is due, so the page sleeps between her frames
+     * instead of being woken at every refresh of the screen for nothing.
+     */
+    _schedule(wait) {
+      if (!this._running || this._rafPending) return;
+      if (wait > 0.02) {
+        if (!this._wakeT) this._wakeT = setTimeout(() => { this._wakeT = 0; this._due = true; this._schedule(0); }, (Math.min(wait, 0.25) - 0.002) * 1000);
+        return;
+      }
+      this._rafPending = true;
+      requestAnimationFrame(this._frame);
+    }
+
+    /** Something happened (she was called, touched, given something to do): the next frame comes at once. */
+    _wake() {
+      if (!this._wakeT) return;
+      clearTimeout(this._wakeT);
+      this._wakeT = 0;
+      this._schedule(0);
     }
 
     _frame(now) {
+      this._rafPending = false;
       if (!this._running) return;
-      requestAnimationFrame(this._frame);
-      if (document.hidden) { this._last = now; return; }
+      // asked for by the calm timer: the frame is due now. Its time stamp can be the screen refresh
+      // before the timer, so the clock is read instead.
+      const due = this._due;
+      this._due = false;
+      if (due) now = Math.max(now, performance.now());
+      if (document.hidden) { this._last = now; this._schedule(0.25); return; }
       const step = (now - this._last) / 1000;
       this._last = now;
-      if (step <= 0) return;
+      if (step <= 0) { this._schedule(0); return; }
       const interval = this._frameInterval(now);
-      // frames come at the screen's rate; skip the ones not needed (a skipped frame costs nothing to draw)
+      // a frame comes early now and then (the screen's refresh): it waits for the next one
       this._acc = (this._acc || 0) + step;
-      if (this._acc < interval - 0.004) return;
+      if (!due && this._acc < interval - 0.004) { this._schedule(interval - this._acc); return; }
       const dt = Math.min(this._acc, Math.max(1 / 20, interval));
       this._acc = 0;
       this.t += dt;
+      // the next frame is asked for first: whatever happens in this one, she keeps living
+      this._schedule(interval);
       this._update(dt, now);
       // fully hidden with nothing left on screen: timers keep working, and nothing is drawn after the
       // one frame that clears her away
