@@ -373,6 +373,14 @@ void main(){
 .mb-say button{font:inherit;font-size:13px;border:1.5px solid ${INK};border-radius:99px;padding:3px 12px;background:#fff;color:${INK};cursor:pointer}
 .mb-say button.primary{background:${INK};color:#fff}
 .mb-say button:focus-visible{outline:2px solid ${PINK};outline-offset:2px}
+/* a line about work in progress ("looking for app.js…"): lighter than her speech, with a small spinner */
+.mb-say.busy{background:#f7f4ff;font-size:14px;padding:7px 13px 8px;box-shadow:0 8px 22px -10px rgba(20,24,70,.3),0 0 0 1.5px rgba(143,123,255,.55)}
+.mb-say.busy::after{background:#f7f4ff;box-shadow:1.5px 1.5px 0 0 rgba(143,123,255,.55)}
+.mb-say.busy.below::after{box-shadow:-1.5px -1.5px 0 0 rgba(143,123,255,.55)}
+.mb-say.busy .mb-line::before{content:"";display:inline-block;width:11px;height:11px;margin-inline-end:8px;vertical-align:-1px;
+  border-radius:50%;border:2px solid rgba(143,123,255,.35);border-top-color:${PINK};animation:mb-spin .8s linear infinite}
+@keyframes mb-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.mb-say.busy .mb-line::before{animation:none}}
 `;
 
   // ───────────────────────────── the character ─────────────────────────────
@@ -617,7 +625,7 @@ void main(){
       this.sayText.textContent = '';
       const old = el0.querySelector('.mb-btns');
       if (old) old.remove();
-      el0.classList.remove('off');
+      el0.classList.remove('off', 'busy');
       const chars = Array.from(text);
       const mood = this.moodName;
       const snd = this.opt.sound;
@@ -700,8 +708,10 @@ void main(){
      * A line that changes in place, without typing or speaking it: how far something has got
      * ("46% · 112 MB/s"). It stays until she says something else or is hushed.
      */
-    status(text) {
+    status(text, o = {}) {
       this._touch();
+      // busy: work under way (a spinner and a lighter look); plain: a figure such as a percentage
+      this.sayEl.classList.toggle('busy', !!o.busy);
       this._sayToken++;
       clearTimeout(this._sayTimer);
       const old = this.sayEl.querySelector('.mb-btns');
