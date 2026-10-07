@@ -397,6 +397,7 @@ void main(){
         lines: {},
         onInteractive: null,      // (bool) — pointer entered / left an interactive part
         onPoke: null,
+        onDoubleTap: null,        // two quick taps on her (e.g. open a box to type to her)
         sound: null,              // a BlupsySound instance (see sound.js), or null for silence
       }, options);
       this.lines = Object.assign({
@@ -637,6 +638,8 @@ void main(){
       // the mouth follows the real loudness for neural audio and babble, a letter pattern otherwise
       this.talk = { pattern: lipPattern(text), t: 0, rate: o.rate || 30, babble, voiced: !!handle, handle };
       let perChar = this.reduced ? 0 : 1000 / (o.rate || 30);
+      // without a voice to keep in step with, a long line still shows whole in about a second
+      if (!handle) perChar = Math.min(perChar, 1100 / Math.max(1, chars.length));
       return new Promise((resolve) => {
         let i = 0;
         const reveal = (n) => {
@@ -943,7 +946,14 @@ void main(){
         const d = this.dragInfo;
         if (!d || d.id !== e.pointerId) return;
         this.dragInfo = null;
-        if (!d.moved) { this._poke(); return; }
+        if (!d.moved) {
+          // two quick taps: the host may open a box to type to her
+          const now = performance.now();
+          if (this.opt.onDoubleTap && now - (this._lastTap || 0) < 380) { this._lastTap = 0; this.opt.onDoubleTap(); return; }
+          this._lastTap = now;
+          this._poke();
+          return;
+        }
         const s = d.samples;
         let vx = 0, vy = 0;
         if (s.length >= 2) {
