@@ -620,6 +620,8 @@ void main(){
     /** Say something in her speech bubble. Resolves after it has been read (or when a button is chosen). */
     say(text, o = {}) {
       this._touch();
+      // a line still waiting on its buttons is answered "nothing" when another takes the bubble
+      if (this._pendingAnswer) { const r = this._pendingAnswer; this._pendingAnswer = null; r(null); }
       const token = ++this._sayToken;
       const el0 = this.sayEl;
       const buttons = o.buttons || null;
@@ -664,11 +666,12 @@ void main(){
           if (buttons) {
             this._sfx('ask');
             const row = el('div', 'mb-btns');
+            this._pendingAnswer = resolve;
             buttons.forEach((b, k) => {
               const btn = el('button', k === 0 ? 'primary' : '');
               btn.type = 'button';
               btn.textContent = b;
-              btn.addEventListener('click', () => { this.hush(); resolve(b); });
+              btn.addEventListener('click', () => { this._pendingAnswer = null; this.hush(); resolve(b); });
               row.appendChild(btn);
             });
             el0.appendChild(row);
@@ -725,6 +728,7 @@ void main(){
     }
 
     hush() {
+      if (this._pendingAnswer) { const r = this._pendingAnswer; this._pendingAnswer = null; r(null); }
       if (this.opt.sound) { try { this.opt.sound.stopSpeech(); } catch (e) { /* ignore */ } }
       this._sayToken++;
       clearTimeout(this._sayTimer);
