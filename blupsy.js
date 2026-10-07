@@ -398,6 +398,7 @@ void main(){
         onInteractive: null,      // (bool) — pointer entered / left an interactive part
         onPoke: null,
         onDoubleTap: null,        // two quick taps on her (e.g. open a box to type to her)
+        onMenu: null,             // right click on her (e.g. her menu)
         sound: null,              // a BlupsySound instance (see sound.js), or null for silence
       }, options);
       this.lines = Object.assign({
@@ -981,6 +982,8 @@ void main(){
       };
       hit.addEventListener('pointerup', end);
       hit.addEventListener('pointercancel', end);
+      // the right button (or a long press's menu): the host may show her menu right there
+      hit.addEventListener('contextmenu', (e) => { e.preventDefault(); if (this.opt.onMenu) this.opt.onMenu(); });
       hit.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this._poke(); }
       });
