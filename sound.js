@@ -472,7 +472,15 @@
       const lang = this.opt.lang || detectLang(clean, userLocale());
       const u = new root.SpeechSynthesisUtterance(clean);
       u.lang = lang;
-      const voice = pickVoice(this._voices(), lang);
+      const voices = this._voices();
+      const voice = pickVoice(voices, lang);
+      // no voice for this language on the computer (an English Windows has no Arabic one): another
+      // language's voice would read it badly or not at all, so the words stay in the bubble only
+      if (!voice && voices.length) {
+        if (typeof this.opt.onNoVoice === 'function' && !this._noVoiceSaid) { this._noVoiceSaid = true; try { this.opt.onNoVoice(lang); } catch (e) { /* only a notice */ } }
+        if (hasBub) this.play('bub');
+        return null;
+      }
       if (voice) { u.voice = voice; u.lang = voice.lang || lang; }
       const m = VOICE_MOOD[mood] || VOICE_MOOD.idle;
       // gentle mood colour only: big pitch shifts are what make system voices sound robotic
