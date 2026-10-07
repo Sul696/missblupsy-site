@@ -41,6 +41,7 @@ ul{padding-inline-start:22px}
     <h2>Your voice</h2>
     <p>When you call her to listen, your voice is turned into text <b>on your computer</b> (with the open Whisper model). Your voice is never sent anywhere. The speech model is downloaded once from Hugging Face the first time you use listening.</p>
     <p><b>Optional online hearing</b> (off by default, in the Hearing menu): if you turn it on, each recording is sent to Groq with your own Groq key to be turned into text, under Groq's privacy policy. If Groq cannot answer, she hears you on your computer as above. Each time Groq is asked is noted in the activity log, without the recording or the text.</p>
+    <p><b>The weather</b>: when you ask her about the weather, only the name of the place (or, if you name none, the city of your computer's time zone) is sent to Open-Meteo (open-meteo.com), a free weather service with no account. Nothing else about you is sent.</p>
 
     <h2>Optional AI brains</h2>
     <p>If you add your own keys for her brains (Claude from Anthropic, Google Gemini, GitHub Models, Mistral, Groq, Cerebras, OpenRouter or your Azure OpenAI), what you ask her, and the screenshots and file contents she reads to do it, are sent to those services to be answered, under their own privacy policies. Your keys are stored encrypted with your operating system's keychain.</p>
@@ -83,6 +84,7 @@ ul{padding-inline-start:22px}
     <ul>
       <li><b>صوتك:</b> يتحوّل لنص على جهازك نفسه، وما يطلع منه. موديل السمع ينزل مرة وحدة من Hugging Face.</li>
       <li><b>السمع عبر الإنترنت (اختياري، مقفل افتراضياً):</b> لو شغّلته من قائمة السمع، كل تسجيل يروح لـ Groq بمفتاحك عشان يتحول لنص، حسب سياسة Groq. ولو ما ضبط، تسمعك على جهازك.</li>
+      <li><b>الطقس:</b> لما تسألها عن الجو، يروح اسم المكان بس (أو مدينة المنطقة الزمنية لجهازك لو ما حددت مكان) لـ Open-Meteo، خدمة طقس مجانية بدون حساب. وما يروح أي شي ثاني عنك.</li>
       <li><b>عقولها (اختياري):</b> لو حطيت مفاتيحك (Claude من Anthropic وGemini وGitHub وMistral وGroq وغيرها)، طلبك وما تقراه عشان تسويه (صور الشاشة والملفات) يروح لهالخدمات عشان ترد، حسب سياساتها. والمفاتيح محفوظة مشفّرة في جهازك.</li>
       <li><b>شاشتك:</b> ما تصوّرها إلا لما يطلب تطبيق الذكاء وبإذنك، وما تصوّر نوافذ البنوك وكلمات السر أبداً. والصورة تروح لتطبيق الذكاء اللي تستخدمه (مثل Claude) حسب سياسته.</li>
       <li><b>الملفات:</b> داخل المجلدات اللي تسمح فيها بس، وتاخذ نسخة احتياطية على جهازك قبل أي تعديل.</li>
