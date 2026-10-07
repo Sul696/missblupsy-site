@@ -44,6 +44,7 @@ h1,h2,h3{font-family:var(--head);line-height:1.25;margin:0}
 h2{font-size:clamp(28px,4vw,40px);text-align:center;margin-bottom:10px}
 .lead{color:var(--soft);text-align:center;max-width:640px;margin:0 auto 36px;font-size:18px}
 section{padding:72px 0}
+.promo{display:block;width:100%;max-width:960px;margin:18px auto 0;border-radius:18px;box-shadow:0 18px 50px rgba(30,40,120,.18);background:#dcecff;aspect-ratio:16/9}
 
 /* top bar */
 .bar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -184,6 +185,13 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     </div>
   </section>
 
+  <section id="watch">
+    <div class="wrap">
+      <h2 data-t="w.t"></h2>
+      <video class="promo" controls playsinline preload="metadata" poster="media/promo-poster.jpg" src="media/promo.mp4"></video>
+    </div>
+  </section>
+
   <section id="how">
     <div class="wrap">
       <h2 data-t="how.t"></h2>
@@ -291,7 +299,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'hero.sub': 'فقاعة صغيرة تعيش على شاشتك: تسمعك، وتفتح لك البرامج والمواقع، وتأشر على الشاشة، وتعدّل ملفاتك. بدون أي مفتاح API.',
       'hero.dl': 'حمّلها لـ {os}', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
       'hero.quote': '«قلها… وتصير 🫧»',
-      'how.t': 'ثلاث خطوات وتبدأ', 'how.d': 'تحتاج بس تطبيق ذكاء يدعم MCP، مثل Claude أو Cursor.',
+      'w.t': 'شوفها وهي تشتغل', 'how.t': 'ثلاث خطوات وتبدأ', 'how.d': 'تحتاج تطبيق ذكاء يدعم MCP (مثل Claude)، أو مفتاح من Claude Console، أو مفتاح مجاني مثل Gemini.',
       'how.1t': 'حمّلها وشغّلها', 'how.1d': 'تطلع لك من تحت الشاشة وتسلّم، وتختار شكلها وصوتها ووش مسموح لها.',
       'how.2t': 'تربط نفسها بالذكاء', 'how.2d': 'تضيف نفسها لتطبيقات الذكاء اللي عندك بعد ما توافق، أو ركّب إضافتها بضغطة.',
       'how.3t': 'كلّمها', 'how.3d': 'قل للذكاء: «خل Miss Blupsy تسلّم علي»، أو اضغط <kbd>Ctrl/⌘ + Shift + Space</kbd> وكلّمها.',
@@ -355,7 +363,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'hero.sub': 'A little bubble that lives on your screen: she hears you, opens your apps and sites, points at things, and edits your files. No API key needed.',
       'hero.dl': 'Download for {os}', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
       'hero.quote': '“Say it… and pop 🫧”',
-      'how.t': 'Three steps to start', 'how.d': 'All you need is an AI app that supports MCP, like Claude or Cursor.',
+      'w.t': 'See her at work', 'how.t': 'Three steps to start', 'how.d': 'All you need is an AI app that supports MCP (like Claude), or a key from the Claude Console, or a free key like Gemini.',
       'how.1t': 'Download and open', 'how.1d': 'She rises from the bottom of your screen, says hi, and you pick her look, her voice and what she may do.',
       'how.2t': 'She links herself to your AI', 'how.2d': 'She adds herself to your AI apps once you say yes, or install her extension in one click.',
       'how.3t': 'Talk to her', 'how.3d': 'Tell your AI: “Have Miss Blupsy say hi”, or press <kbd>Ctrl/⌘ + Shift + Space</kbd> and talk.',
