@@ -690,8 +690,8 @@ void main(){
               // answered first: hush() would otherwise settle it as cut short
               resolve(true);
               if (!o.keep) this.hush();
-            // spoken words were heard: a short pause after. Babble says no words, and a set hold is kept: time to read
-            }, handle && !babble && o.hold == null ? Math.min(hold, 900) : hold);
+            // spoken words were heard: a short pause after. Babble says no words, and o.read asks for time to read it
+            }, handle && !babble && !o.read ? Math.min(hold, 900) : hold);
           };
           // with a voice, wait for her to finish speaking (never more than 30 s)
           if (handle) Promise.race([handle.done, wait(30000)]).then(() => { if (token === this._sayToken) after(); else resolve(null); });
