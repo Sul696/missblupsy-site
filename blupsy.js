@@ -493,6 +493,7 @@ void main(){
       this.hover = false;
       this.dragInfo = null;
       this._sayToken = 0;
+      this._sayResolve = null;   // settles the line now in the bubble (see say)
       this._running = true;
       this._last = performance.now();
 
@@ -621,8 +622,8 @@ void main(){
     /** Say something in her speech bubble. Resolves after it has been read (or when a button is chosen). */
     say(text, o = {}) {
       this._touch();
-      // a line still waiting on its buttons is answered "nothing" when another takes the bubble
-      if (this._pendingAnswer) { const r = this._pendingAnswer; this._pendingAnswer = null; r(null); }
+      // the line before is answered "nothing" when this one takes the bubble (its buttons or its wait end here)
+      this._settleSay(null);
       const token = ++this._sayToken;
       const el0 = this.sayEl;
       const buttons = o.buttons || null;
@@ -643,7 +644,10 @@ void main(){
       let perChar = this.reduced ? 0 : 1000 / (o.rate || 30);
       // without a voice to keep in step with, a long line still shows whole in about a second
       if (!handle) perChar = Math.min(perChar, 1100 / Math.max(1, chars.length));
-      return new Promise((resolve) => {
+      return new Promise((settle) => {
+        // every way this line ends goes through here, so a new line, hush() or status() never leaves it hanging
+        const resolve = (v) => { if (this._sayResolve === resolve) this._sayResolve = null; settle(v); };
+        this._sayResolve = resolve;
         let i = 0;
         const reveal = (n) => {
           i = Math.max(i, Math.min(chars.length, n));
@@ -667,12 +671,11 @@ void main(){
           if (buttons) {
             this._sfx('ask');
             const row = el('div', 'mb-btns');
-            this._pendingAnswer = resolve;
             buttons.forEach((b, k) => {
               const btn = el('button', k === 0 ? 'primary' : '');
               btn.type = 'button';
               btn.textContent = b;
-              btn.addEventListener('click', () => { this._pendingAnswer = null; this.hush(); resolve(b); });
+              btn.addEventListener('click', () => { if (token !== this._sayToken) return; resolve(b); this.hush(); });
               row.appendChild(btn);
             });
             el0.appendChild(row);
@@ -684,8 +687,9 @@ void main(){
           const after = () => {
             this._sayTimer = setTimeout(() => {
               if (token !== this._sayToken) return resolve(null);
-              if (!o.keep) this.hush();
+              // answered first: hush() would otherwise settle it as cut short
               resolve(true);
+              if (!o.keep) this.hush();
             }, handle ? Math.min(hold, 900) : hold);
           };
           // with a voice, wait for her to finish speaking (never more than 30 s)
@@ -719,6 +723,7 @@ void main(){
       this._touch();
       // busy: work under way (a spinner and a lighter look); plain: a figure such as a percentage
       this.sayEl.classList.toggle('busy', !!o.busy);
+      this._settleSay(null);
       this._sayToken++;
       clearTimeout(this._sayTimer);
       const old = this.sayEl.querySelector('.mb-btns');
@@ -729,13 +734,20 @@ void main(){
     }
 
     hush() {
-      if (this._pendingAnswer) { const r = this._pendingAnswer; this._pendingAnswer = null; r(null); }
+      this._settleSay(null);
       if (this.opt.sound) { try { this.opt.sound.stopSpeech(); } catch (e) { /* ignore */ } }
       this._sayToken++;
       clearTimeout(this._sayTimer);
       this.talk = null;
       this.sayEl.classList.add('off');
       this._setInteractive(this.hover);
+    }
+
+    /** End the line in the bubble now: whoever waits on it hears v (null: it was cut short). */
+    _settleSay(v) {
+      const r = this._sayResolve;
+      this._sayResolve = null;
+      if (r) r(v);
     }
 
     wave(ms = 1500) { return this._armsFor(['float', 'wave'], ms); }
@@ -921,6 +933,8 @@ void main(){
       this.sayEl.addEventListener('pointerenter', () => this._setInteractive(true));
       this.sayEl.addEventListener('pointerleave', () => this._setInteractive(this.hover || this._sayHasButtons()));
       hit.addEventListener('pointerdown', (e) => {
+        // only the main button taps and drags her; the right one opens her menu (contextmenu below)
+        if (e.button !== 0) return;
         e.preventDefault();
         hit.setPointerCapture && hit.setPointerCapture(e.pointerId);
         this.dragInfo = { id: e.pointerId, sx: e.clientX, sy: e.clientY, moved: false, samples: [], ox: 0, oy: 0 };
