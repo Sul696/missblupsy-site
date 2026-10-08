@@ -398,6 +398,7 @@ void main(){
         onInteractive: null,      // (bool) — pointer entered / left an interactive part
         onPoke: null,
         onDoubleTap: null,        // two quick taps on her (e.g. open a box to type to her)
+        onTap: null,              // one tap (a second may follow: e.g. get that box ready)
         onMenu: null,             // right click on her (e.g. her menu)
         sound: null,              // a BlupsySound instance (see sound.js), or null for silence
       }, options);
@@ -971,6 +972,7 @@ void main(){
           const now = performance.now();
           if (this.opt.onDoubleTap && now - (this._lastTap || 0) < 380) { this._lastTap = 0; this.opt.onDoubleTap(); return; }
           this._lastTap = now;
+          if (this.opt.onTap) this.opt.onTap();
           this._poke();
           return;
         }
