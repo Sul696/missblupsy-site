@@ -61,6 +61,9 @@ ul{padding-inline-start:22px}
     <h2>What stays on your computer</h2>
     <ul>
       <li>Your settings, what she learned (in <code>~/.miss-blupsy/memory.json</code>), and backups of edited files.</li>
+      <li>What you told her about yourself (<code>~/.miss-blupsy/profile.json</code>): sent with each request to her brains so they know you; never passwords, codes or card, account or ID numbers. Say “forget everything about me” to wipe it.</li>
+      <li>The conversation with her brains, in words (<code>~/.miss-blupsy/talk.json</code>), so it goes on after an update or a restart. It is forgotten when you stop talking for half an hour, when you say “start over”, or when you say “forget everything about me”.</li>
+      <li>The last long answer you opened in full (<code>~/.miss-blupsy/answer.html</code>), replaced by the next one.</li>
       <li>An activity log of the actions she took (<code>~/.miss-blupsy/activity.log</code>), without the text you typed.</li>
     </ul>
     <p>You can delete any of these at any time. Uninstalling the app and deleting the <code>~/.miss-blupsy</code> folder removes everything.</p>
@@ -87,7 +90,8 @@ ul{padding-inline-start:22px}
       <li><b>الطقس:</b> لما تسألها عن الجو، يروح اسم المكان بس (أو مدينة المنطقة الزمنية لجهازك لو ما حددت مكان) لـ Open-Meteo، خدمة طقس مجانية بدون حساب. وما يروح أي شي ثاني عنك.</li>
       <li><b>عقولها (اختياري):</b> لو حطيت مفاتيحك (Claude من Anthropic وGemini وGitHub وMistral وGroq وغيرها)، طلبك وما تقراه عشان تسويه (صور الشاشة والملفات) يروح لهالخدمات عشان ترد، حسب سياساتها. والمفاتيح محفوظة مشفّرة في جهازك.</li>
       <li><b>شاشتك:</b> ما تصوّرها إلا لما يطلب تطبيق الذكاء وبإذنك، وما تصوّر نوافذ البنوك وكلمات السر أبداً. والصورة تروح لتطبيق الذكاء اللي تستخدمه (مثل Claude) حسب سياسته.</li>
-      <li><b>الملفات:</b> داخل المجلدات اللي تسمح فيها بس، وتاخذ نسخة احتياطية على جهازك قبل أي تعديل.</li>
+      <li><b>الملفات:</b> داخل المجلدات اللي تسمح فيها بس، وتاخذ نسخة احتياطية على جهازك قبل أي تعديل، وتقدر ترجّع تعديلها بـ«رجعي الملف زي ما كان».</li>
+      <li><b>اللي يبقى على جهازك:</b> اللي قلته لها عن نفسك (يروح مع طلباتك لعقولها عشان تعرفك، وما تحفظ الأسرار والأرقام الحساسة أبداً، و«انسي كل شي عني» يمسحه)، وسالفتك مع عقولها بالكلام بس (عشان تكمل بعد التحديث، وتنمسح بعد نص ساعة سكوت أو بـ«سالفة جديدة»)، وآخر رد طويل فتحته كامل، وسجل اللي سوّته. كلها في مجلد <code>~/.miss-blupsy</code>.</li>
       <li><b>أجهزتك:</b> النقل بينها مباشر على شبكة بيتك ومشفّر، وما يمر على أي خادم.</li>
       <li><b>الصوت الواقعي (اختياري):</b> لو حطيت مفتاحك من Google أو Azure أو OpenAI أو ElevenLabs، نص كلامها يروح لهالشركة عشان تنطقه، والمفتاح محفوظ مشفّر في جهازك.</li>
       <li><b>الموقع:</b> بدون كوكيز وبدون تتبّع.</li>
