@@ -3,33 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Miss Blupsy 🫧</title>
-<meta name="description" content="Miss Blupsy: a little bubble that lives on your screen and gives AI a body. Works with any AI app that supports MCP.">
-<meta property="og:title" content="Miss Blupsy 🫧">
-<meta property="og:description" content="A body for AI: a little bubble on your screen that hears you, opens your apps, points, and edits your files.">
-<meta property="og:image" content="https://missblupsy.com/icon-512.png">
+<title>Miss Blupsy 🫧 مساعدة ذكية تعيش على جهازك</title>
+<meta name="description" content="Miss Blupsy: an AI helper that lives on your computer and does what you ask. She hears you, opens your apps, reads your files, checks her work and learns from mistakes. Free for Windows, Mac and Linux, in Arabic, English and 12 more languages.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miss Blupsy">
+<meta property="og:title" content="Miss Blupsy 🫧 مساعدة ذكية تعيش على جهازك وتنفذ أوامرك">
+<meta property="og:description" content="تسمعك، تفتح برامجك، تقرأ ملفاتك، تتأكد من شغلها، وتتعلم من أخطائها. مجانية لويندوز وماك ولينكس.">
+<meta property="og:image" content="https://missblupsy.com/media/og-ar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miss Blupsy, a bubble character, waving next to the words: an AI helper that lives on your computer">
 <meta property="og:url" content="https://missblupsy.com/">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@missblupsy">
+<meta name="twitter:title" content="Miss Blupsy 🫧 An AI helper that lives on your computer">
+<meta name="twitter:description" content="She hears you, opens your apps, reads your files, checks her work and learns from mistakes. Free for Windows, Mac and Linux.">
+<meta name="twitter:image" content="https://missblupsy.com/media/og-en.png">
 <link rel="canonical" href="https://missblupsy.com/">
-<meta name="theme-color" content="#f7f3ff">
+<meta name="theme-color" content="#141532">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Miss Blupsy","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows, macOS, Linux","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://missblupsy.com/","image":"https://missblupsy.com/media/og-en.png","description":"An AI helper that lives on your computer and does what you ask.","inLanguage":["ar","en"],"sameAs":["https://x.com/missblupsy","https://www.tiktok.com/@missblupsy"]}</script>
 <link rel="icon" href="icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f7f3ff; --bg2:#eef6ff; --ink:#1a1d4a; --soft:#585c8a; --card:#ffffffd9; --line:#1a1d4a14;
+  --bg:#12132b; --bg2:#151a36; --ink:#eef0ff; --soft:#a8acd6; --card:#1d2045d9; --line:#ffffff1a;
   --pink:#ff6fae; --violet:#8f7bff; --sky:#4cc3ff; --mint:#44d6a6;
   --brand:linear-gradient(120deg,var(--pink),var(--violet) 45%,var(--sky));
-  --shadow:0 18px 50px -20px #1a1d4a40, 0 0 0 1px var(--line);
+  --shadow:0 18px 50px -20px #000a, 0 0 0 1px var(--line);
   --head:"Baloo Bhaijaan 2","IBM Plex Sans Arabic",system-ui,sans-serif;
   --body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
-  color-scheme:light;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#12132b; --bg2:#151a36; --ink:#eef0ff; --soft:#a8acd6; --card:#1d2045d9; --line:#ffffff1a;
-    --shadow:0 18px 50px -20px #000a, 0 0 0 1px var(--line); color-scheme:dark;
-  }
+/* dark is her home; light when the visitor picks it (kept for next time) */
+:root[data-theme="light"]{
+  --bg:#f7f3ff; --bg2:#eef6ff; --ink:#1a1d4a; --soft:#585c8a; --card:#ffffffd9; --line:#1a1d4a14;
+  --shadow:0 18px 50px -20px #1a1d4a40, 0 0 0 1px var(--line); color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -138,6 +150,29 @@ details.warn summary{cursor:pointer;font-weight:600}
 .faq p{margin:8px 0 0;color:var(--soft)}
 
 footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
+.private{display:inline-flex;gap:8px;align-items:center;margin-top:18px;padding:8px 16px;border-radius:99px;font-weight:600;font-size:15px;
+  color:var(--mint);background:color-mix(in srgb,var(--mint) 12%,transparent);border:1px solid color-mix(in srgb,var(--mint) 40%,transparent)}
+.follow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.follow a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:15px;padding:9px 16px;border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+.follow a:hover{transform:translateY(-2px)}
+.follow svg{width:18px;height:18px;fill:currentColor}
+/* the problem, then her answer */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto}
+.vs div{background:var(--card);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.vs h3{font-size:22px;margin:0 0 8px}
+.vs p{margin:0;color:var(--soft)}
+.vs .yes{outline:2px solid color-mix(in srgb,var(--violet) 70%,transparent)}
+/* works with */
+.with{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px;margin:0 auto}
+.with span{background:var(--card);box-shadow:var(--shadow);border-radius:14px;padding:10px 18px;font-weight:700}
+.with small{display:block;text-align:center;color:var(--soft);margin-top:14px;font-size:14px;width:100%}
+/* the short clip */
+.reel{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;max-width:900px;margin:0 auto}
+.reel video{width:300px;aspect-ratio:9/16;border-radius:24px;box-shadow:var(--shadow);background:#141532}
+.reel h3{font-size:26px;margin:0 0 10px}
+.reel p{color:var(--soft);margin:0 0 16px}
+.reel .follow{justify-content:flex-start}
+@media (max-width:720px){.vs{grid-template-columns:1fr}.reel{grid-template-columns:1fr;justify-items:center;text-align:center}.reel .follow{justify-content:center}}
 
 @media (max-width:860px){
   .steps,.grid,.dl{grid-template-columns:1fr 1fr}
@@ -165,6 +200,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       <a class="hide-sm" href="#how" data-t="nav.how"></a>
       <a class="hide-sm" href="#features" data-t="nav.features"></a>
       <a class="hide-sm" href="#download" data-t="nav.download"></a>
+      <button class="pill" id="theme" type="button" aria-label="Light or dark">☀️</button>
       <button class="pill" id="lang" type="button">English</button>
     </nav>
   </div>
@@ -181,7 +217,19 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         <a class="btn" id="mainDl" href="#download"><span id="mainDlText"></span></a>
         <div class="alt" id="mainAlt"></div>
       </div>
+      <div class="private" data-t="hero.private"></div>
+      <div class="follow" id="heroFollow"></div>
       <p class="quote" data-t="hero.quote"></p>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="wrap">
+      <h2 data-t="why.t"></h2>
+      <div class="vs">
+        <div><h3 data-t="why.noT"></h3><p data-t="why.noD"></p></div>
+        <div class="yes"><h3 data-t="why.yesT"></h3><p data-t="why.yesD"></p></div>
+      </div>
     </div>
   </section>
 
@@ -201,6 +249,14 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         <div class="step"><h3 data-t="how.2t"></h3><p data-t="how.2d"></p></div>
         <div class="step"><h3 data-t="how.3t"></h3><p data-t="how.3d"></p></div>
       </div>
+    </div>
+  </section>
+
+  <section id="with">
+    <div class="wrap">
+      <h2 data-t="with.t"></h2>
+      <p class="lead" data-t="with.d"></p>
+      <div class="with"><span>Claude</span><span>Cursor</span><span>Windsurf</span><span>VS Code</span><span>Gemini</span><span>Groq</span><small data-t="with.note"></small></div>
     </div>
   </section>
 
@@ -228,6 +284,15 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
           </div>
           <p class="note" data-t="try.note"></p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reel">
+    <div class="wrap">
+      <div class="reel">
+        <video id="reelVideo" controls playsinline muted loop preload="none" width="300" height="533"></video>
+        <div><h3 data-t="reel.t"></h3><p data-t="reel.d"></p><div class="follow" id="reelFollow"></div></div>
       </div>
     </div>
   </section>
@@ -269,6 +334,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
 <footer>
   <div class="wrap">
     <p data-t="foot"></p>
+    <div class="follow" id="footFollow"></div>
     <p><a href="about.html">About</a> · <a href="help.html">Help</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:sultan.alenezi@missblupsy.com">Contact</a> · <a href="https://github.com/Sul696/missblupsy-site/issues">Support</a></p>
     <p>© 2026 Miss Blupsy · Founded by Sultan Alenezi · Saudi Arabia</p>
     <p>© Miss Blupsy</p>
@@ -289,14 +355,26 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     linux: [['Miss-Blupsy-Linux.AppImage', 'AppImage']],
   };
   const EXT = 'miss-blupsy.mcpb';
+  const SOCIAL = { x: 'https://x.com/missblupsy', tt: 'https://www.tiktok.com/@missblupsy' };
+  const ICON = {
+    x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2zm-1.2 18h1.7L7.2 3.9H5.4L17.7 20z"/></svg>',
+    tt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.3a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.2a6.3 6.3 0 1 0 5.3 6.2V8.6a8 8 0 0 0 4.7 1.5V6.8A4.7 4.7 0 0 1 16.6 2z"/></svg>',
+  };
 
   // ── words ──
   const T = {
     ar: {
       'nav.how': 'كيف تشتغل', 'nav.features': 'وش تسوي', 'nav.download': 'التحميل',
       'hero.badge': 'تشتغل مع أي ذكاء يدعم MCP',
-      'hero.tag': 'جسم للذكاء الاصطناعي.',
-      'hero.sub': 'فقاعة صغيرة تعيش على شاشتك: تسمعك، وتفتح لك البرامج والمواقع، وتأشر على الشاشة، وتعدّل ملفاتك. بدون أي مفتاح API.',
+      'hero.tag': 'مساعدة ذكية تعيش على جهازك وتنفذ أوامرك.',
+      'hero.sub': 'فقاعة صغيرة على شاشتك: تسمعك، تفتح برامجك ومواقعك، تقرأ ملفاتك وتعدّلها، تتأكد إن شغلها تم فعلاً، وتتعلم من أخطائها.',
+      'hero.private': '🔒 صوتك وذاكرتها عنك يبقون على جهازك',
+      'why.t': 'ليش Miss Blupsy؟',
+      'why.noT': '😩 المساعد المعتاد', 'why.noD': 'يعيش في نافذة دردشة: تشرح له، تنسخ وتلصق، وبعدين تسوي الشغل بنفسك. وكل كلمة تقولها تطلع من جهازك.',
+      'why.yesT': '🫧 Miss Blupsy', 'why.yesD': 'تعيش على شاشتك وتسوي الشغل قدامك: تفتح، تدوّر، تعدّل، وتتأكد. أوامرها اليومية وسمعها وذاكرتها على جهازك وبدون نت، والطلب الكبير بس يروح للذكاء اللي تختاره.',
+      'with.t': 'تشتغل مع اللي عندك', 'with.d': 'أي تطبيق ذكاء يدعم MCP، أو مفتاحك الخاص من Claude، أو مفاتيح مجانية.', 'with.note': 'الأسماء لأصحابها؛ Miss Blupsy برنامج مستقل.',
+      'reel.t': 'شوف الجديد في ٣٠ ثانية', 'reel.d': 'أعطها ملف وتلخصه، تتعثر وتحلها بنفسها، وتتأكد قبل لا تقول خلصت. وتابعنا لمقاطع جديدة كل أسبوع.',
+      'follow.x': 'تابعنا على X', 'follow.tt': 'تابعنا على تيك توك',
       'hero.dl': 'حمّلها لـ {os}', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
       'hero.quote': '«قلها… وتصير 🫧»',
       'w.t': 'شوفها وهي تشتغل', 'how.t': 'ثلاث خطوات وتبدأ', 'how.d': 'تحتاج تطبيق ذكاء يدعم MCP (مثل Claude)، أو مفتاح من Claude Console، أو مفتاح مجاني مثل Gemini.',
@@ -330,6 +408,9 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         thrown: ['ويييي! 🎢', 'مرة ثانية! 😆', 'دختت… 😵‍💫'],
       },
       features: [
+        ['📎', 'أعطها أي ملف', 'اضغط المشبك في مربع الكتابة أو اسحب الملف عليه، واسأل: «لخصه»، «ترجمه»، «وش في الصورة؟». تقرأ PDF وWord وExcel والصور، ولو ما كتبت شي تقولك وش فيه.'],
+        ['🛠️', 'تحلها بنفسها وتتأكد', 'إذا تعثرت خطوة تعرف السبب وتجرب طريقة ثانية بدل ما توقف. وتقرا الملف بعد ما تحفظه، وتشوف إنه انتقل فعلاً، قبل لا تقول «خلصت».'],
+        ['🎓', 'تتعلم من أخطائها', 'لما تصحح غلطة أو تصححها أنت، تحفظ الدرس على جهازك وما تكرره. «وش تعلمتي؟» يوريك، و«انسي اللي تعلمتيه» يمسحه.'],
         ['🧠', 'عقل يشتغل مثل المساعد المحترف', 'بمفتاح Claude أو مفاتيح مجانية تفكر وتشتغل بنفسها: تدوّر في النت، تقرا ملفاتك وPDF وWord وExcel كذا واحد بنفس اللحظة، توريك خطتها خطوة خطوة في المهام الطويلة، وتتذكر وش قريتوا وسويتوا في سوالفكم. أو ترسل الطلب لتطبيق الذكاء عندك ويشتغل بأدواتها قدامك.'],
         ['💜', 'تعرفك', 'قل «تذكري ان اسمي سلطان» أو «تذكري اني احب القهوة بدون سكر» وتعرفه في كل سؤال بعدها، مع أي عقل. «وش تعرفين عني؟» يوريك اللي تعرفه، و«انسي كل شي عني» يمسحه. يبقى على جهازك بس، والأسرار والأرقام الحساسة ما تحفظها أبدًا.'],
         ['🎙️', 'تسمعك على جهازك', 'تحوّل صوتك لنص على جهازك نفسه، وصوتك ما يطلع منه. وتفهم أكثر من لغة. ولو تبي أسرع وأدق، شغّل «السمع عبر الإنترنت» بمفتاح Groq المجاني.'],
@@ -358,14 +439,22 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         ['وش أحتاج عشان تشتغل؟', 'تطبيق ذكاء يدعم MCP (مثل Claude أو Cursor أو Windsurf أو VS Code)، وجهاز ويندوز أو ماك أو لينكس.'],
         ['مع أي ذكاء تشتغل؟', 'هي أداة MCP، فتشتغل مع أي تطبيق يدعم MCP: Claude وCursor وWindsurf وVS Code وغيرها. وتربط نفسها فيهم لحالها.'],
         ['هل تشوف شاشتي دايماً؟', 'لا. ما تشوف إلا لما يطلب الذكاء وتوافق أنت (أو تسمح لها من البداية). ونوافذ البنوك ما تصوّرها أبداً.'],
+        ['وش يطلع من جهازي؟', 'الأوامر اليومية (فتح وإغلاق، ملفات، صوت، تذكير، صلاة) تشتغل على جهازك بدون نت. الطلب الكبير بس يروح للذكاء اللي تختاره (تطبيقك أو مفتاحك)، ومعه اللي يحتاجه بس. وتقدر تشوف كل اللي سوته من «وش سويتي» في القائمة.'],
         ['هل صوتي يطلع من جهازي؟', 'لا. السمع يصير على جهازك نفسه، وبعد أول تحميل يشتغل بدون نت. إلا لو شغّلت بنفسك «السمع عبر الإنترنت» (مقفل افتراضياً): وقتها التسجيل يروح لـ Groq بمفتاحك عشان يتحول لنص.'],
       ],
     },
     en: {
       'nav.how': 'How it works', 'nav.features': 'Features', 'nav.download': 'Download',
       'hero.badge': 'Works with any MCP AI app',
-      'hero.tag': 'A body for AI.',
-      'hero.sub': 'A little bubble that lives on your screen: she hears you, opens your apps and sites, points at things, and edits your files. No API key needed.',
+      'hero.tag': 'An AI helper that lives on your computer and does what you ask.',
+      'hero.sub': 'A little bubble on your screen: she hears you, opens your apps and sites, reads and edits your files, checks her work really happened, and learns from her mistakes.',
+      'hero.private': '🔒 Your voice and what she knows about you stay on your computer',
+      'why.t': 'Why Miss Blupsy?',
+      'why.noT': '😩 The usual assistant', 'why.noD': 'Lives in a chat window: you explain, copy, paste, then do the work yourself. And every word you say leaves your computer.',
+      'why.yesT': '🫧 Miss Blupsy', 'why.yesD': 'Lives on your screen and does the work in front of you: opens, finds, edits, and checks. Her everyday commands, her hearing and her memory run on your computer with no internet; only a big request goes to the AI you choose.',
+      'with.t': 'Works with what you have', 'with.d': 'Any AI app that supports MCP, your own Claude key, or free keys.', 'with.note': 'Names belong to their owners; Miss Blupsy is an independent app.',
+      'reel.t': 'What’s new, in 30 seconds', 'reel.d': 'Hand her a file and she sums it up, she hits a snag and fixes it herself, and she checks before she says “done”. Follow us for new clips every week.',
+      'follow.x': 'Follow on X', 'follow.tt': 'Follow on TikTok',
       'hero.dl': 'Download for {os}', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
       'hero.quote': '“Say it… and pop 🫧”',
       'w.t': 'See her at work', 'how.t': 'Three steps to start', 'how.d': 'All you need is an AI app that supports MCP (like Claude), or a key from the Claude Console, or a free key like Gemini.',
@@ -399,6 +488,9 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         thrown: ['Wheee! 🎢', 'Again! 😆', 'So dizzy… 😵‍💫'],
       },
       features: [
+        ['📎', 'Hand her any file', 'Press the clip in her typing box or drag a file onto it, and ask: “sum it up”, “translate it”, “what’s in the picture?”. She reads PDFs, Word, Excel and pictures; type nothing and she tells you what’s in it.'],
+        ['🛠️', 'Fixes snags and checks her work', 'When a step fails she finds out why and tries another way instead of stopping. She reads a file back after saving it and makes sure a move really happened before she says “done”.'],
+        ['🎓', 'Learns from mistakes', 'When she fixes a mistake, or you correct her, she keeps the lesson on your computer and doesn’t repeat it. “What have you learned?” shows them; “forget what you learned” wipes them.'],
         ['🧠', 'A brain that works like a pro assistant', 'With a Claude key or free keys she thinks and works on her own: she searches the web, reads your files, PDFs, Word and Excel several at once, shows her plan step by step on long tasks, and remembers what you read and did together. Or she hands the request to your AI app, which works through her tools in front of you.'],
         ['💜', 'She knows you', 'Say “remember that my name is Sam” or “remember I take my coffee black” and she knows it in every question after, with any brain. “What do you know about me?” shows it, and “forget everything about me” wipes it. It stays on your computer, and secrets or sensitive numbers are never kept.'],
         ['🎙️', 'She hears you, on your computer', 'Your voice becomes text on your own computer and never leaves it. Many languages. Want it faster and sharper? Turn on online hearing with a free Groq key.'],
@@ -427,6 +519,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         ['What do I need?', 'An AI app that supports MCP (like Claude, Cursor, Windsurf or VS Code), and a Windows, Mac or Linux computer.'],
         ['Which AI does she work with?', 'She is an MCP tool, so any app that supports MCP: Claude, Cursor, Windsurf, VS Code and more. She links herself to them.'],
         ['Does she always see my screen?', 'No. Only when the AI asks and you agree (or allowed it from the start). Banking windows are never captured.'],
+        ['What leaves my computer?', 'Everyday commands (opening and closing, files, sound, reminders, prayer times) run on your computer with no internet. Only a big request goes to the AI you choose (your app or your key), with just what it needs. You can see everything she did under “What she did” in her menu.'],
         ['Does my voice leave my computer?', 'No. Listening happens on your computer, and works offline after the first download. Only if you turn on online hearing yourself (off by default) is the recording sent to Groq, with your own key, to be turned into text.'],
       ],
     },
@@ -478,6 +571,11 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         ${FILES[k].map(([f, label]) => `<a class="file" href="${FILE(f)}"><span>${label}</span><small>${f.split('.').pop()}</small></a>`).join('')}
       </div>`).join('');
     $('#extBtn').href = FILE(EXT);
+    const follow = `<a href="${SOCIAL.x}" rel="me noopener" target="_blank">${ICON.x}${t('follow.x')}</a><a href="${SOCIAL.tt}" rel="me noopener" target="_blank">${ICON.tt}${t('follow.tt')}</a>`;
+    for (const id of ['#heroFollow', '#reelFollow', '#footFollow']) $(id).innerHTML = follow;
+    const reel = $('#reelVideo');
+    const want = `media/reel-${lang}.mp4`;
+    if (reel.getAttribute('src') !== want) { reel.setAttribute('poster', `media/reel-${lang}.jpg`); reel.setAttribute('src', want); }
     if (b) b.lines = Object.assign({}, b.lines, T[lang].lines);
   }
 
@@ -508,6 +606,12 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     });
   } catch (e) { b = null; }
   render();
+  // light or dark: dark unless the visitor chose light
+  const theme = (v) => { if (v === 'light') document.documentElement.dataset.theme = 'light'; else delete document.documentElement.dataset.theme; $('#theme').textContent = v === 'light' ? '🌙' : '☀️'; };
+  let mode = 'dark';
+  try { mode = localStorage.getItem('mb-theme') === 'light' ? 'light' : 'dark'; } catch { /* private window */ }
+  theme(mode);
+  $('#theme').addEventListener('click', () => { mode = mode === 'light' ? 'dark' : 'light'; theme(mode); try { localStorage.setItem('mb-theme', mode); } catch { /* private window */ } });
   if (!b) return;
 
   // one thing at a time: what you ask waits its turn, her own remarks are skipped while she is busy
