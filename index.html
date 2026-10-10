@@ -168,6 +168,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
 .with small{display:block;text-align:center;color:var(--soft);margin-top:14px;font-size:14px;width:100%}
 /* the short clip */
 .reel{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;max-width:900px;margin:0 auto}
+.reel .clips{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
 .reel video{width:300px;aspect-ratio:9/16;border-radius:24px;box-shadow:var(--shadow);background:#141532}
 .reel h3{font-size:26px;margin:0 0 10px}
 .reel p{color:var(--soft);margin:0 0 16px}
@@ -291,7 +292,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
   <section id="reel">
     <div class="wrap">
       <div class="reel">
-        <video id="reelVideo" controls playsinline muted loop preload="none" width="300" height="533"></video>
+        <div class="clips"><video id="reelVideo" controls playsinline muted loop preload="none" width="300" height="533"></video><video id="reelVideo2" controls playsinline muted loop preload="none" width="300" height="533"></video></div>
         <div><h3 data-t="reel.t"></h3><p data-t="reel.d"></p><div class="follow" id="reelFollow"></div></div>
       </div>
     </div>
@@ -373,7 +374,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'why.noT': '😩 المساعد المعتاد', 'why.noD': 'يعيش في نافذة دردشة: تشرح له، تنسخ وتلصق، وبعدين تسوي الشغل بنفسك. وكل كلمة تقولها تطلع من جهازك.',
       'why.yesT': '🫧 Miss Blupsy', 'why.yesD': 'تعيش على شاشتك وتسوي الشغل قدامك: تفتح، تدوّر، تعدّل، وتتأكد. أوامرها اليومية وسمعها وذاكرتها على جهازك وبدون نت، والطلب الكبير بس يروح للذكاء اللي تختاره.',
       'with.t': 'تشتغل مع اللي عندك', 'with.d': 'أي تطبيق ذكاء يدعم MCP، أو مفتاحك الخاص من Claude، أو مفاتيح مجانية.', 'with.note': 'الأسماء لأصحابها؛ Miss Blupsy برنامج مستقل.',
-      'reel.t': 'شوف الجديد في ٣٠ ثانية', 'reel.d': 'أعطها ملف وتلخصه، تتعثر وتحلها بنفسها، وتتأكد قبل لا تقول خلصت. وتابعنا لمقاطع جديدة كل أسبوع.',
+      'reel.t': 'شوف الجديد بالفيديو', 'reel.d': 'كلّمها من جوالك وتسويه على الكمبيوتر، وقل «اضغطي على حفظ» وتضغطه. وتابعنا لمقاطع جديدة كل أسبوع.',
       'follow.x': 'تابعنا على X', 'follow.tt': 'تابعنا على تيك توك',
       'hero.dl': 'حمّلها لـ {os}', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
       'hero.quote': '«قلها… وتصير 🫧»',
@@ -396,7 +397,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'foot': 'Miss Blupsy برنامج مستقل يشتغل مع تطبيقات الذكاء اللي تدعم MCP.',
       'os.win': 'ويندوز', 'os.mac': 'ماك', 'os.linux': 'لينكس',
       'b.hello': 'هلا! أنا Miss Blupsy 🫧',
-      'b.point': 'هذا لجهازك 👇', 'b.pointAny': 'من هنا تحمّلني 👇',
+      'b.point': 'هذا لجهازك', 'b.pointAny': 'من هنا تحمّلني',
       'b.mistake': 'الغلط هنا 👀 «=» بدل «===»',
       'b.sound': 'الحين تسمعني! 🎶', 'b.soundOff': 'سكتت 🤫',
       'b.how': 'سهلة، صدقني ✨', 'b.features': 'وهذا شوي من اللي أسويه 💪', 'b.safety': 'ما ألمس شي بدون إذنك 🔒', 'b.download': 'يلا! 🫧',
@@ -415,10 +416,12 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         ['🧠', 'عقل يشتغل مثل المساعد المحترف', 'بمفتاح Claude أو مفاتيح مجانية تفكر وتشتغل بنفسها: تدوّر في النت، تقرا ملفاتك وPDF وWord وExcel كذا واحد بنفس اللحظة، توريك خطتها خطوة خطوة في المهام الطويلة، وتتذكر وش قريتوا وسويتوا في سوالفكم. أو ترسل الطلب لتطبيق الذكاء عندك ويشتغل بأدواتها قدامك.'],
         ['💜', 'تعرفك', 'قل «تذكري ان اسمي سلطان» أو «تذكري اني احب القهوة بدون سكر» وتعرفه في كل سؤال بعدها، مع أي عقل. «وش تعرفين عني؟» يوريك اللي تعرفه، و«انسي كل شي عني» يمسحه. يبقى على جهازك بس، والأسرار والأرقام الحساسة ما تحفظها أبدًا.'],
         ['🎙️', 'تسمعك على جهازك', 'تحوّل صوتك لنص على جهازك نفسه، وصوتك ما يطلع منه. وتفهم أكثر من لغة. ولو تبي أسرع وأدق، شغّل «السمع عبر الإنترنت» بمفتاح Groq المجاني.'],
-        ['👆', 'تضغط الأزرار بكلامك', '«اضغطي على حفظ» وتلقى الزر في الشاشة وتضغطه. أي زر حذف أو دفع أو إرسال تسألك قبله كل مرة.'],
+        ['🔁', 'علّمها مرة وتعيدها', '«سجلي خطواتي»، وسوّ طلباتك وحدة وحدة، وبعدين «وقفي التسجيل وسميها تقرير الأسبوع». بعدها «سوي تقرير الأسبوع» وتعيدها كلها، وتقدر تحطها في روتين يومي.'],
+        ['📋', 'حافظة مشتركة مع الجوال', 'الصق نص في الجوال واضغط 📋 ويصير في حافظة الكمبيوتر، أو قل «ارسلي المنسوخ لجوالي». لما تطلب بس.'],
+        ['👆', 'تضغط الأزرار بكلامك', '«اضغطي على حفظ» وتلقى الزر في الشاشة وتضغطه، من قائمة أزرار النظام نفسه بدقة وسرعة. أي زر حذف أو دفع أو إرسال تسألك قبله كل مرة.'],
         ['🗣️', 'تصحى على اسمها', 'قل «يا بلبسي» أو «يا بلبسي افتحي يوتيوب» بدون ما تضغط شي. السمع على جهازك نفسه وما ينرسل شي، وتشغّله من قائمة السمع لو تبيه.'],
         ['🔁', 'روتينك اليومي', '«كل يوم الساعة ٨ افتحي الايميل» أو «كل يوم الصبح الساعة ٧ قولي لي الطقس»، وتسويه لحالها كل يوم. الأشياء الخطيرة مثل الحذف أو الإطفاء ما تنحط بموعد.'],
-        ['📱', 'كلّمها من جوالك', 'صوّر الكود من جوالك مرة وحدة، وبعدها اكتب لها أو تكلم بمايك الكيبورد: «عدّلي الملف»، «افتحي التقرير»، وتسويه على الكمبيوتر وأنت بعيد عنه، وترد عليك في الجوال. توافق على أسئلتها من الجوال، وترسل الصور والملفات وتستقبلها. يشتغل على شبكة واي فاي خاصة عليها باسورد بس، وباسورد الواي فاي واللي في الحافظة ما يطلعون للجوال أبدًا.'],
+        ['📱', 'كلّمها من جوالك', 'صوّر الكود من جوالك مرة وحدة، وبعدها اكتب لها أو تكلم بمايك الكيبورد: «عدّلي الملف»، «افتحي التقرير»، وتسويه على الكمبيوتر وأنت بعيد عنه، وترد عليك في الجوال. توافق على أسئلتها من الجوال، وترسل الصور والملفات وتستقبلها، والتذكيرات ترن في جوالك، وتحطها على الشاشة الرئيسية مثل التطبيق. يشتغل على شبكة واي فاي خاصة عليها باسورد بس، وباسورد الواي فاي واللي في الحافظة ما يطلعون للجوال أبدًا.'],
         ['👀', 'تقرأ الشاشة في لحظة', '«وين زر الحفظ؟» وتأشّر عليه، «وش مكتوب بالشاشة؟» وتقراه لك. القراءة على جهازك نفسه بدون نت وبدون ذكاء، والصورة تنحذف على طول، وتغمّض عيونها عن البنوك وكلمات السر.'],
         ['🚀', 'تنفذ على طول، بدون ذكاء ولا نت', 'تفتح وتقفل البرامج والملفات والمواقع، تدوّر على ملفاتك، ترفع وتوطي الصوت، تصوّر الشاشة، تحسب، وتذكّرك. بأي صيغة تقولها. وأي برنامج عندك باسمه ولو كتبته بالعربي («افتحي بلندر»)، وتنقلك له وهو مفتوح («روحي للكروم»، «صغري الكروم»).'],
         ['🕌', 'مواعيد الصلاة والطقس', '«متى الأذان؟»، «نبهيني وقت الصلاة»، «صحيني لصلاة الفجر»، «وش الجو في جدة؟». قل «مدينتي جدة» وتصير المواعيد لمدينتك بالضبط، بطريقة أم القرى، وتنحسب على جهازك.'],
@@ -459,7 +462,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'why.noT': '😩 The usual assistant', 'why.noD': 'Lives in a chat window: you explain, copy, paste, then do the work yourself. And every word you say leaves your computer.',
       'why.yesT': '🫧 Miss Blupsy', 'why.yesD': 'Lives on your screen and does the work in front of you: opens, finds, edits, and checks. Her everyday commands, her hearing and her memory run on your computer with no internet; only a big request goes to the AI you choose.',
       'with.t': 'Works with what you have', 'with.d': 'Any AI app that supports MCP, your own Claude key, or free keys.', 'with.note': 'Names belong to their owners; Miss Blupsy is an independent app.',
-      'reel.t': 'What’s new, in 30 seconds', 'reel.d': 'Hand her a file and she sums it up, she hits a snag and fixes it herself, and she checks before she says “done”. Follow us for new clips every week.',
+      'reel.t': 'What’s new, on video', 'reel.d': 'Text her from your phone and she does it on your computer; say “click save” and she presses it. Follow us for new clips every week.',
       'follow.x': 'Follow on X', 'follow.tt': 'Follow on TikTok',
       'hero.dl': 'Download for {os}', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
       'hero.quote': '“Say it… and pop 🫧”',
@@ -482,7 +485,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'foot': 'Miss Blupsy is an independent app that works with AI apps that support MCP.',
       'os.win': 'Windows', 'os.mac': 'Mac', 'os.linux': 'Linux',
       'b.hello': 'Hi! I’m Miss Blupsy 🫧',
-      'b.point': 'This one’s for you 👇', 'b.pointAny': 'Get me here 👇',
+      'b.point': 'This one’s for you', 'b.pointAny': 'Get me here',
       'b.mistake': 'Here it is 👀 “=” instead of “===”',
       'b.sound': 'Now you can hear me! 🎶', 'b.soundOff': 'Shh 🤫',
       'b.how': 'Easy, promise ✨', 'b.features': 'A few of the things I do 💪', 'b.safety': 'I never touch anything without asking 🔒', 'b.download': 'Let’s go! 🫧',
@@ -494,10 +497,12 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
         thrown: ['Wheee! 🎢', 'Again! 😆', 'So dizzy… 😵‍💫'],
       },
       features: [
-        ['👆', 'Presses buttons by their words', '“Click save” and she finds the button on the screen and presses it. Delete, pay or send: she asks first, every time.'],
+        ['🔁', 'Show her once, she repeats it', '“Record my steps”, do your requests one by one, then “stop recording and call it weekly report”. After that, “do weekly report” runs them all, and you can put it in a daily routine.'],
+        ['📋', 'A clipboard shared with your phone', 'Paste text on your phone and tap 📋 to put it on the computer’s clipboard, or say “send my clipboard to my phone”. Only when you ask.'],
+        ['👆', 'Presses buttons by their words', '“Click save” and she finds the button on the screen and presses it, exactly and quickly, from the system’s own list of buttons. Delete, pay or send: she asks first, every time.'],
         ['🗣️', 'Wakes up to her name', 'Say “Hey Blupsy” or “Hey Blupsy, open YouTube” without pressing anything. Heard on your own computer, nothing is sent; turn it on in the Hearing menu if you want it.'],
         ['🔁', 'Your daily routine', '“Every day at 8 open gmail” or “every morning at 7 what’s the weather”, and she does it by herself each day. Risky things like deleting or shutting down are never scheduled.'],
-        ['📱', 'Text her from your phone', 'Scan the code once, then type or use your keyboard mic: “edit the file”, “open the report”. She does it on the computer while you’re away from it, and answers on your phone. Answer her questions from there, and send or get photos and files. Only on a private Wi-Fi with a password, and the Wi-Fi password or what you copied never goes to the phone.'],
+        ['📱', 'Text her from your phone', 'Scan the code once, then type or use your keyboard mic: “edit the file”, “open the report”. She does it on the computer while you’re away from it, and answers on your phone. Answer her questions from there, send or get photos and files, get reminders on it, and keep her on your home screen like an app. Only on a private Wi-Fi with a password, and the Wi-Fi password or what you copied never goes to the phone.'],
         ['👀', 'Reads the screen in a moment', '“Where’s the save button?” and she points at it; “what does the screen say?” and she reads it to you. Read on your own computer, with no internet and no AI; the picture is deleted at once, and she shuts her eyes to banking and password apps.'],
         ['📎', 'Hand her any file', 'Press the clip in her typing box or drag a file onto it, and ask: “sum it up”, “translate it”, “what’s in the picture?”. She reads PDFs, Word, Excel and pictures; type nothing and she tells you what’s in it.'],
         ['🛠️', 'Fixes snags and checks her work', 'When a step fails she finds out why and tries another way instead of stopping. She reads a file back after saving it and makes sure a move really happened before she says “done”.'],
@@ -585,9 +590,13 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     $('#extBtn').href = FILE(EXT);
     const follow = `<a href="${SOCIAL.x}" rel="me noopener" target="_blank">${ICON.x}${t('follow.x')}</a><a href="${SOCIAL.tt}" rel="me noopener" target="_blank">${ICON.tt}${t('follow.tt')}</a>`;
     for (const id of ['#heroFollow', '#reelFollow', '#footFollow']) $(id).innerHTML = follow;
-    const reel = $('#reelVideo');
-    const want = `media/reel-${lang}.mp4`;
-    if (reel.getAttribute('src') !== want) { reel.setAttribute('poster', `media/reel-${lang}.jpg`); reel.setAttribute('src', want); }
+    // the newest clips: her on your phone, and pressing buttons by their words (Arabic or English)
+    const L = lang === 'ar' ? 'ar' : 'en';
+    for (const [id, name] of [['#reelVideo', 'phone'], ['#reelVideo2', 'screen']]) {
+      const v = $(id);
+      const want = `media/${name}-${L}.mp4`;
+      if (v.getAttribute('src') !== want) { v.setAttribute('poster', `media/${name}-${L}.jpg`); v.setAttribute('src', want); }
+    }
     if (b) b.lines = Object.assign({}, b.lines, T[lang].lines);
   }
 
@@ -645,8 +654,9 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     await wait(400);
     const btn = $('#mainDl');
     if (visible(btn)) await job(async () => {
-      const c = center(btn, document.documentElement.dir === 'rtl' ? 1 : 0, 0.5);
-      await b.pointAt(c.x, c.y, { say: primaryFile() ? t('b.point') : t('b.pointAny'), hold: 2600 });
+      // beside the button when there is room, under it on a phone; never on it, and her words neither
+      const r = btn.getBoundingClientRect();
+      await b.pointAtBox({ x: r.left, y: r.top, w: r.width, h: r.height }, { from: document.documentElement.dir === 'rtl' ? 'right' : 'left', say: primaryFile() ? t('b.point') : t('b.pointAny'), arrow: true, hold: 2600 });
       const back = home();
       await b.flyTo(back.x, back.y, { style: 'soft' });
     });

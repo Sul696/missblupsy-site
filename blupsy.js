@@ -764,8 +764,9 @@ void main(){
       const R = this.R;
       // o.from: 'left' = stand left of the target and point right, 'right' = the opposite
       const side = o.from === 'left' ? 1 : o.from === 'right' ? -1 : (x >= this.pos.x ? 1 : -1);
-      const bx = clamp(x - side * R * 2.15, R * 1.4, this.W - R * 1.4);
-      const by = clamp(y + R * 0.35, R * 1.9, this.H - R * 1.8);
+      // o.at: where she stands (else beside the target)
+      const bx = o.at ? o.at.x : clamp(x - side * R * (o.reach || 2.15), R * 1.4, this.W - R * 1.4);
+      const by = o.at ? o.at.y : clamp(y + R * 0.35, R * 1.9, this.H - R * 1.8);
       if (len(bx - this.pos.x, by - this.pos.y) > R * 0.4) await this.flyTo(bx, by, { style: 'cartoon', fast: o.fast });
       const s2 = x >= this.pos.x ? 1 : -1;
       this.pointTarget = { x, y, side: s2 };
@@ -774,6 +775,34 @@ void main(){
       if (o.say) await this.say(o.say, { hold: o.hold, silent: o.silent });
       else await wait(o.hold || 1800);
       if (!o.keep) this.release();
+    }
+
+    /**
+     * Point at a box on the page ({x, y, w, h}) without covering it: from beside it when there is room
+     * for her there, otherwise from below it (or above, near the bottom of the screen). Her words keep
+     * off the box too. o.arrow: end her words with a hand pointing the way she points (👉 👈 👆 👇).
+     */
+    async pointAtBox(rect, o = {}) {
+      const R = this.R, W = this.W, H = this.H;
+      const cx = rect.x + rect.w / 2, cy = rect.y + rect.h / 2;
+      // beside it: at arm's length, or a little closer when that is all the room there is
+      const fit = (room) => [2.15, 1.85, 1.6].find((k) => room - 6 - R * k >= R * 1.4) || 0;
+      const kL = fit(rect.x), kR = fit(W - rect.x - rect.w);
+      const roomL = kL > 0, roomR = kR > 0;
+      const pref = o.from || (this.pos.x < cx ? 'left' : 'right');
+      this._avoid = rect;
+      const say = (h) => (o.arrow && o.say ? { ...o, say: o.say + ' ' + h } : o);
+      try {
+        if (roomL && (pref === 'left' || !roomR)) return await this.pointAt(rect.x - 6, cy, { ...say('👉'), from: 'left', reach: kL });
+        if (roomR) return await this.pointAt(rect.x + rect.w + 6, cy, { ...say('👈'), from: 'right', reach: kR });
+        // no room beside it: stand under (or over) its near end and point at its edge
+        const left = pref === 'left';
+        const tx = clamp(left ? rect.x + Math.min(rect.w * 0.2, R * 1.5) : rect.x + rect.w - Math.min(rect.w * 0.2, R * 1.5), R, W - R);
+        const under = rect.y + rect.h + R * 2.3 <= H - R * 1.8;
+        const ty = under ? rect.y + rect.h + 4 : rect.y - 4;
+        const at = { x: clamp(tx + (left ? -1 : 1) * R * 0.9, R * 1.4, W - R * 1.4), y: under ? rect.y + rect.h + R * 2.1 : rect.y - R * 2.1 };
+        return await this.pointAt(tx, ty, { ...say(under ? '👆' : '👇'), at });
+      } finally { this._avoid = null; }
     }
 
     /** Show that she hears sound (level 0…1): little waves by her ear and a tiny bounce. */
@@ -2057,8 +2086,15 @@ void main(){
       // follow her body, not her bob, so the bubble (and its buttons) stays still enough to read and click
       const bx = Math.round(this.pos.x), by = Math.round(this.pos.y + (this.mode === 'hover' ? this.body.sag * R : 0));
       const top = by - R * 1.75;
-      const below = top - h - 12 < 4;
+      let below = top - h - 12 < 4;
       let x = clamp(bx - w / 2, 6, this.W - w - 6);
+      // while she points at a box, her words keep off it
+      const a = this._avoid;
+      const hits = (yy) => a && x < a.x + a.w && x + w > a.x && yy < a.y + a.h && yy + h > a.y;
+      if (a && hits(below ? by + R * 2.1 : top - h - 10)) {
+        const other = !below;
+        if (!hits(other ? by + R * 2.1 : top - h - 10) && (other ? by + R * 2.1 + h < this.H - 4 : top - h - 12 >= 4)) below = other;
+      }
       const y = below ? by + R * 2.1 : top - h - 10;
       el0.classList.toggle('below', below);
       el0.style.left = x + 'px';
