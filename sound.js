@@ -420,19 +420,50 @@
       return h;
     }
 
-    /** Neural voice: the host's tts(text, mood) returns encoded audio; it plays through the analyser so her mouth follows it. */
+    /**
+     * Neural voice: the host's tts(text, mood) returns encoded audio; it plays through the analyser so her mouth
+     * follows it. A long line is said in pieces (a sentence, then the rest): all of them are asked for at once,
+     * and she starts on the first as soon as it is here, instead of waiting for the whole line's audio.
+     */
     _speakNatural(clean, mood, hasBub) {
       this.stopSpeech();
       const h = this._handle('natural', clean.length);
       this._current = h;
+      const parts = speechParts(clean);
+      const clips = parts.map((t) => Promise.resolve().then(() => this.opt.tts(t, mood)).then((res) => {
+        if (!res || !res.data) throw new Error('no audio');
+        const bytes = res.data instanceof ArrayBuffer ? res.data : res.data.buffer.slice(res.data.byteOffset, res.data.byteOffset + res.data.byteLength);
+        return this.ctx.decodeAudioData(bytes);
+      }));
+      for (const c of clips) c.catch(() => {}); // a piece that fails is handled where it is played
+      const finish = () => {
+        if (hasBub && !h.stopped) this.play('bub');
+        if (this._current === h) this._current = null;
+        h._done();
+        this._idleSoon();
+      };
+      // the rest of the line in the computer's voice (no key, no internet, a provider error)
+      const fallBack = (from, first) => {
+        const rest = parts.slice(from).join(' ');
+        // (the computer's voice takes over as what is being said: stopping it stops this line too)
+        if (this._current === h) this._current = null;
+        const s = this._speakSystem(rest, mood, hasBub);
+        if (!s) { if (first) h._start(null); h._done(); return; }
+        h.kind = 'speech';
+        if (first) s.started.then(h._start);
+        const offset = parts.slice(0, from).join(' ').length + (from ? 1 : 0);
+        s.onBoundary = (i) => { if (h.onBoundary) h.onBoundary(offset + i); };
+        s.done.then(h._done);
+      };
       (async () => {
-        try {
-          const res = await this.opt.tts(clean, mood);
-          if (h.stopped) { h._start(null); h._done(); return; }
-          if (!res || !res.data) throw new Error('no audio');
-          const bytes = res.data instanceof ArrayBuffer ? res.data : res.data.buffer.slice(res.data.byteOffset, res.data.byteOffset + res.data.byteLength);
-          const buf = await this.ctx.decodeAudioData(bytes);
-          if (h.stopped) { h._start(null); h._done(); return; }
+        for (let i = 0; i < parts.length; i++) {
+          let buf;
+          try { buf = await clips[i]; } catch (e) {
+            if (h.stopped) { if (!i) h._start(null); h._done(); return; }
+            fallBack(i, i === 0);
+            return;
+          }
+          if (h.stopped) { if (!i) h._start(null); h._done(); return; }
           this._napping = false;
           clearTimeout(this._napTimer);
           if (this.ctx.state === 'suspended') await this.ctx.resume();
@@ -442,24 +473,14 @@
           g.gain.value = 1.6; // speech sits a little louder than the bubble sounds
           src.connect(g).connect(this.voiceBus);
           h.source = src;
-          src.onended = () => {
-            if (hasBub && !h.stopped) this.play('bub');
-            if (this._current === h) this._current = null;
-            h._done();
-            this._idleSoon();
-          };
+          const ended = new Promise((r) => { src.onended = r; });
           src.start();
-          h._start(buf.duration);
-        } catch (e) {
-          if (h.stopped) { h._start(null); h._done(); return; }
-          // no key, no internet, provider error: fall back to the computer's own voice
-          const s = this._speakSystem(clean, mood, hasBub);
-          if (!s) { h._start(null); h._done(); return; }
-          h.kind = 'speech';
-          s.onBoundary = (i) => { if (h.onBoundary) h.onBoundary(i); };
-          s.started.then(h._start);
-          s.done.then(h._done);
+          // the whole line's length, guessed from the first piece, so her words keep pace with her voice
+          if (!i) h._start(parts.length === 1 ? buf.duration : buf.duration * (clean.length / Math.max(1, parts[0].length)));
+          await ended;
+          if (h.stopped) { h._done(); return; }
         }
+        finish();
       })();
       return h;
     }
@@ -607,6 +628,36 @@
   const BUB = /(بُب|\bBub\b|Бульк|啵|ぷくっ|뽁)/;
   const BUB_ALL = /(بُب|\bBub\b|Бульк|啵|ぷくっ|뽁)\s*[!！]?/g;
 
+  /**
+   * A line to say in pieces: up to the end of its first sentence (when that comes soon enough), then the rest
+   * in one or two pieces. A short line stays whole.
+   */
+  function speechParts(text) {
+    const t = String(text || '').trim();
+    if (t.length < 110) return [t];
+    const ends = /[.!?؟。！？…]+["'”»)]*\s+|[،,;:]\s+/g;
+    let cut = -1;
+    let m;
+    while ((m = ends.exec(t))) {
+      const at = m.index + m[0].length;
+      if (at >= 18 && at <= 160) { cut = at; if (/[.!?؟。！？…]/.test(m[0])) break; }
+      if (at > 160) break;
+    }
+    if (cut < 0) return [t];
+    const first = t.slice(0, cut).trim();
+    const rest = t.slice(cut).trim();
+    if (!rest) return [first];
+    // a long rest in two, at a sentence end near its middle, so it too starts sooner
+    if (rest.length > 260) {
+      const mid = rest.length / 2;
+      let best = -1;
+      const re = /[.!?؟。！？…]+["'”»)]*\s+/g;
+      while ((m = re.exec(rest))) { const at = m.index + m[0].length; if (best < 0 || Math.abs(at - mid) < Math.abs(best - mid)) best = at; }
+      if (best > 40 && best < rest.length - 40) return [first, rest.slice(0, best).trim(), rest.slice(best).trim()];
+    }
+    return [first, rest];
+  }
+
   function cleanForSpeech(text) {
     const s = String(text || '').replace(EMOJI, '').replace(BUB_ALL, '').replace(/[«»"]/g, '').replace(/\s+/g, ' ').trim();
     EMOJI.lastIndex = 0;
@@ -645,6 +696,7 @@
   BlupsySound.cleanForSpeech = cleanForSpeech;
   BlupsySound.detectLang = detectLang;
 
+  BlupsySound.speechParts = speechParts;
   root.BlupsySound = BlupsySound;
   if (typeof module !== 'undefined' && module.exports) module.exports = BlupsySound;
 })(typeof window !== 'undefined' ? window : globalThis);
