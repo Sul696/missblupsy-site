@@ -1149,6 +1149,8 @@ void main(){
      */
     _frameInterval(now) {
       if (this.mode === 'hidden' && !this.fx.length && !(this._S > 0.01)) return 0.25;
+      // calm: the computer is busy for her (turning speech into words): 20 fps is enough, unless she is held
+      if (this.calm && !this.dragInfo && !(this.pop > 0.001)) return 1 / 20;
       if (this.mode !== 'hover' || this.talk || this.dragInfo || this.hover || this.pointTarget || this.armOverride || this.pop > 0.001) return 1 / 60;
       if (now - (this.lastActive || 0) < 1500) return 1 / 60;
       for (const p of this.fx) if (!CALM_FX.has(p.type) || (p.type === 'scribble' && p.life < 1.2)) return 1 / 60;
