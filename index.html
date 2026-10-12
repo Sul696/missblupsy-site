@@ -136,6 +136,8 @@ kbd{font:600 13px ui-monospace,monospace;background:var(--line);padding:2px 7px;
   background:var(--line);font-weight:600}
 .os a.file:hover{background:color-mix(in srgb,var(--violet) 18%,transparent)}
 .os a.file small{color:var(--soft);font-weight:500}
+.os a.file.store{background:var(--violet);color:#fff}
+.os a.file.store small{color:#fff;opacity:.85}
 .ext{margin-top:16px;display:flex;align-items:center;gap:16px;background:var(--card);border-radius:22px;padding:20px 22px;box-shadow:var(--shadow)}
 .ext .i{font-size:34px}
 .ext p{margin:2px 0 0;color:var(--soft)}
@@ -356,6 +358,8 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     linux: [['Miss-Blupsy-Linux.AppImage', 'AppImage']],
   };
   const EXT = 'miss-blupsy.mcpb';
+  // Windows: the Microsoft Store copy (signed by Microsoft, updated by the Store, no warning)
+  const STORE = 'https://apps.microsoft.com/detail/9NW5HFGJLMXP';
   const SOCIAL = { x: 'https://x.com/missblupsy', tt: 'https://www.tiktok.com/@missblupsy' };
   const ICON = {
     x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2zm-1.2 18h1.7L7.2 3.9H5.4L17.7 20z"/></svg>',
@@ -376,7 +380,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'with.t': 'تشتغل مع اللي عندك', 'with.d': 'أي تطبيق ذكاء يدعم MCP، أو مفتاحك الخاص من Claude، أو مفاتيح مجانية.', 'with.note': 'الأسماء لأصحابها؛ Miss Blupsy برنامج مستقل.',
       'reel.t': 'شوف الجديد بالفيديو', 'reel.d': 'كلّمها من جوالك وتسويه على الكمبيوتر، وقل «اضغطي على حفظ» وتضغطه. وتابعنا لمقاطع جديدة كل أسبوع.',
       'follow.x': 'تابعنا على X', 'follow.tt': 'تابعنا على تيك توك',
-      'hero.dl': 'حمّلها لـ {os}', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
+      'hero.dl': 'حمّلها لـ {os}', 'hero.store': 'حمّلها من متجر مايكروسوفت', 'hero.dlAny': 'حمّلها مجاناً', 'hero.alt': 'أنظمة ثانية؟ <a href="#download">كل التحميلات</a>',
       'hero.quote': '«قلها… وتصير 🫧»',
       'w.t': 'شوفها وهي تشتغل', 'how.t': 'ثلاث خطوات وتبدأ', 'how.d': 'تحتاج تطبيق ذكاء يدعم MCP (مثل Claude)، أو مفتاح من Claude Console، أو مفتاح مجاني مثل Gemini.',
       'how.1t': 'حمّلها وشغّلها', 'how.1d': 'تطلع لك من تحت الشاشة وتسلّم، وتختار شكلها وصوتها ووش مسموح لها.',
@@ -388,10 +392,10 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'try.note': 'في البرنامج تسوي أكثر بكثير: تشوف الشاشة (بإذنك)، وتضغط وتكتب، وتعدّل الكود مباشرة.',
       's.t': 'آمنة من البداية', 's.d': 'كل شي يمر على قواعدها هي، حتى لو طلبه الذكاء.',
       'd.t': 'التحميل', 'd.d': 'مجانية، لويندوز وماك ولينكس.',
-      'd.mine': 'جهازك',
+      'd.mine': 'جهازك', 'd.store': 'متجر مايكروسوفت', 'd.storeTag': 'الأسهل',
       'd.extT': 'إضافة Claude Desktop', 'd.extD': 'ملف واحد يتركّب في Claude بضغطة، ويشغّلها لما يحتاجها. وباقي التطبيقات تربط نفسها فيها لحالها.', 'd.extBtn': 'حمّل الإضافة',
       'd.warnT': 'ويندوز أو ماك طلّع لك تحذير؟',
-      'd.warnWin': '<b>ويندوز:</b> اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال». البرنامج للحين بدون شهادة توقيع.',
+      'd.warnWin': '<b>ويندوز:</b> نسخة متجر مايكروسوفت ما يطلع لها أي تحذير. ولو حمّلت ملف exe: اضغط «مزيد من المعلومات» ثم «تشغيل على أي حال».',
       'd.warnMac': '<b>ماك:</b> اضغط على البرنامج بالزر اليمين ثم «فتح»، ثم «فتح» مرة ثانية.',
       'q.t': 'أسئلة',
       'foot': 'Miss Blupsy برنامج مستقل يشتغل مع تطبيقات الذكاء اللي تدعم MCP.',
@@ -464,7 +468,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'with.t': 'Works with what you have', 'with.d': 'Any AI app that supports MCP, your own Claude key, or free keys.', 'with.note': 'Names belong to their owners; Miss Blupsy is an independent app.',
       'reel.t': 'What’s new, on video', 'reel.d': 'Text her from your phone and she does it on your computer; say “click save” and she presses it. Follow us for new clips every week.',
       'follow.x': 'Follow on X', 'follow.tt': 'Follow on TikTok',
-      'hero.dl': 'Download for {os}', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
+      'hero.dl': 'Download for {os}', 'hero.store': 'Get it from Microsoft Store', 'hero.dlAny': 'Download free', 'hero.alt': 'Another system? <a href="#download">All downloads</a>',
       'hero.quote': '“Say it… and pop 🫧”',
       'w.t': 'See her at work', 'how.t': 'Three steps to start', 'how.d': 'All you need is an AI app that supports MCP (like Claude), or a key from the Claude Console, or a free key like Gemini.',
       'how.1t': 'Download and open', 'how.1d': 'She rises from the bottom of your screen, says hi, and you pick her look, her voice and what she may do.',
@@ -476,10 +480,10 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
       'try.note': 'In the app she does much more: she sees the screen (with your OK), clicks and types, and edits code directly.',
       's.t': 'Safe from the start', 's.d': 'Everything goes through her own rules, even when the AI asks.',
       'd.t': 'Download', 'd.d': 'Free, for Windows, Mac and Linux.',
-      'd.mine': 'Your computer',
+      'd.mine': 'Your computer', 'd.store': 'Microsoft Store', 'd.storeTag': 'easiest',
       'd.extT': 'Claude Desktop extension', 'd.extD': 'One file that installs into Claude in a click and starts her when needed. Other apps get linked automatically.', 'd.extBtn': 'Get the extension',
       'd.warnT': 'Did Windows or Mac show a warning?',
-      'd.warnWin': '<b>Windows:</b> click “More info”, then “Run anyway”. The app isn’t code-signed yet.',
+      'd.warnWin': '<b>Windows:</b> the Microsoft Store copy shows no warning. For the exe: click “More info”, then “Run anyway”.',
       'd.warnMac': '<b>Mac:</b> right-click the app and choose “Open”, then “Open” again.',
       'q.t': 'Questions',
       'foot': 'Miss Blupsy is an independent app that works with AI apps that support MCP.',
@@ -576,7 +580,8 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     for (const el of $$('[data-t]')) el.innerHTML = t(el.dataset.t);
     const p = primaryFile();
     $('#mainDlText').textContent = p ? t('hero.dl', { os: t('os.' + os) }) : t('hero.dlAny');
-    $('#mainDl').href = p ? FILE(p[0]) : '#download';
+    $('#mainDl').href = os === 'win' ? STORE : p ? FILE(p[0]) : '#download';
+    if (os === 'win') $('#mainDlText').textContent = t('hero.store');
     $('#mainAlt').innerHTML = t('hero.alt');
     $('#featureGrid').innerHTML = T[lang].features.map(([i, h, d]) => `<div class="f"><div class="i">${i}</div><h3>${esc(h)}</h3><p>${esc(d)}</p></div>`).join('');
     $('#safeList').innerHTML = T[lang].safe.map(([i, d]) => `<div><span>${i}</span><p>${esc(d)}</p></div>`).join('');
@@ -585,6 +590,7 @@ footer{padding:40px 0 60px;text-align:center;color:var(--soft);font-size:14px}
     $('#dlGrid').innerHTML = ['win', 'mac', 'linux'].map((k) => `
       <div class="os${k === os ? ' mine' : ''}" id="os-${k}">
         <h3>${icons[k]} ${t('os.' + k)}${k === os ? `<span class="tag2">${t('d.mine')}</span>` : ''}</h3>
+        ${k === 'win' ? `<a class="file store" href="${STORE}"><span>🛍️ ${t('d.store')}</span><small>${t('d.storeTag')}</small></a>` : ''}
         ${FILES[k].map(([f, label]) => `<a class="file" href="${FILE(f)}"><span>${label}</span><small>${f.split('.').pop()}</small></a>`).join('')}
       </div>`).join('');
     $('#extBtn').href = FILE(EXT);
