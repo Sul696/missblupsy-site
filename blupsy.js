@@ -523,9 +523,11 @@ void main(){
       this.appearTarget = 1;
       this.appear.set(1);
       this._sfx('hello');
+      // a line said while she flies in (an answer to the user's first request) is never covered by the greeting
+      const said = this._sayToken;
       await this.flyTo(tx, ty, { style: 'soft', duration: 1.1, trail: true });
       this.wave(1400);
-      if (greeting) await this.say(greeting);
+      if (greeting && this._sayToken === said) await this.say(greeting);
     }
 
     /** Pop out of existence. */
