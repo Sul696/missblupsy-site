@@ -140,6 +140,8 @@ jobs:
   store:
     if: inputs.what == 'store'
     runs-on: windows-latest
+    permissions:
+      contents: write
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -167,6 +169,15 @@ jobs:
           path: src/app/dist/*.appx
           if-no-files-found: error
           retention-days: 30
+      # also a DRAFT release (visible only to the owner), a plain download link for Partner Center
+      - name: Keep the packages as a draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(node -p "require('./src/app/package.json').version")
+          gh release delete "store-$v" --yes --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+          gh release create "store-$v" src/app/dist/*.appx --draft --title "Store packages $v" --notes "Unsigned packages for Partner Center (the Store signs them)." --repo "$GITHUB_REPOSITORY"
 
   site:
     needs: [installers]
